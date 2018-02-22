@@ -9,9 +9,8 @@
 class Dice {
   
     Dice() {
+      // class dice
     }
-    
-    // methods
     
     int rollDice() {
       float eyes = 0;
@@ -20,6 +19,4 @@ class Dice {
       println("Dice is rolled: " + eyesRounded);
       return eyesRounded;
     }
-    
-    // properties
 }
