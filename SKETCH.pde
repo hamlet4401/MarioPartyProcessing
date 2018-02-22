@@ -20,10 +20,10 @@ void setup() {
       myPlayers[j].playerRollDice();
       println("New place " + myPlayers[j].getName()+ ": " + myPlayers[j].getPlaceOnBoard());
       myTiles[myPlayers[j].getPlaceOnBoard()].addPlayerOnTile(myPlayers[j].getName());
-      println("Player on tile " + myTiles[myPlayers[j].getPlaceOnBoard()].getPlaceOfTile() + " is: " + myTiles[myPlayers[j].getPlaceOnBoard()].getPlayerNameOnTile());
+      println("Player on tile " + myTiles[myPlayers[j].getPlaceOnBoard()].getPlaceOfTile() + " is: " + myTiles[myPlayers[j].getPlaceOnBoard()].getPlayerNamesOnTile());
       for(int k = 0; k<18;k++) {
         println(myTiles[k].getNumberPlayersOnTile());
-        println(myTiles[k].getPlayerNameOnTile());
+        println(myTiles[k].getPlayerNamesOnTile());
         println(myTiles[k].isPlayerOnTile());
       }
   
@@ -31,7 +31,7 @@ void setup() {
   }
   for(int i = 0; i<18;i++) {
     println(myTiles[i].getNumberPlayersOnTile());
-    println(myTiles[i].getPlayerNameOnTile());
+    println(myTiles[i].getPlayerNamesOnTile());
     println(myTiles[i].isPlayerOnTile());
   }
 }
