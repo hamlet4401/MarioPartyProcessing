@@ -22,8 +22,6 @@ Dice myDice;
     myDice = new Dice();
   }
   
-  // methods
-  
   /*
   ADD METHOD to have a visual (picture) on the board
   */
@@ -57,15 +55,15 @@ Dice myDice;
   // add scores in scoreGames array
   void addScorePerGame(String strGameName, int score) {
     switch(strGameName) {
-      case "Game 1": scoreGames[0] = score;
+      case "Game1": scoreGames[0] = score;
                      break;
-      case "Game 2": scoreGames[1] = score;
+      case "Game2": scoreGames[1] = score;
                      break;
-      case "Game 3": scoreGames[2] = score;
+      case "Game3": scoreGames[2] = score;
                      break;
-      case "Game 4": scoreGames[3] = score;
+      case "Game4": scoreGames[3] = score;
                      break;
-      case "Game 5": scoreGames[4] = score;
+      case "Game5": scoreGames[4] = score;
                      break;
       default:       // no score
                      break;
@@ -83,6 +81,4 @@ Dice myDice;
       default:       return 0; // no score
     }
   }
-  
-  // properties
 }
