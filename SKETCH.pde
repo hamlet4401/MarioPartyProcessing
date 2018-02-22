@@ -1,12 +1,8 @@
 // variables
   Player[] myPlayers;
   Tile[] myTiles;
-  PImage bg; // background image
   
 void setup() {
-  size(901,694);
-  // ui
-  //bg = loadImage("gameboard.PNG");
   // initialize variables
   myPlayers = new Player[4];
   myTiles = new Tile[18];
@@ -19,20 +15,26 @@ void setup() {
   myPlayers[3] = new Player("player 4", 18);
   for (int i = 0; i <3; i++) {
     for (int j=0; j < 4; j++) {
-      myTiles[myPlayers[j].getPlaceOnBoard()].removePlayerOnTile();
+      myTiles[myPlayers[j].getPlaceOnBoard()].removePlayerOnTile(myPlayers[j].getName());
       println("Old place " + myPlayers[j].getName()+ ": " + myPlayers[j].getPlaceOnBoard());
       myPlayers[j].playerRollDice();
       println("New place " + myPlayers[j].getName()+ ": " + myPlayers[j].getPlaceOnBoard());
       myTiles[myPlayers[j].getPlaceOnBoard()].addPlayerOnTile(myPlayers[j].getName());
       println("Player on tile " + myTiles[myPlayers[j].getPlaceOnBoard()].getPlaceOfTile() + " is: " + myTiles[myPlayers[j].getPlaceOnBoard()].getPlayerNameOnTile());
+      for(int k = 0; k<18;k++) {
+        println(myTiles[k].getNumberPlayersOnTile());
+        println(myTiles[k].getPlayerNameOnTile());
+        println(myTiles[k].isPlayerOnTile());
+      }
+  
     }
+  }
+  for(int i = 0; i<18;i++) {
+    println(myTiles[i].getNumberPlayersOnTile());
+    println(myTiles[i].getPlayerNameOnTile());
+    println(myTiles[i].isPlayerOnTile());
   }
 }
 
 void draw() {
-  // give UI white background
-  background(256);
-  //image(bg,0,0,width,height); // add image to background
-  textSize(30); // increase text height
-  fill(0,0,256); // give the text some color
 }
