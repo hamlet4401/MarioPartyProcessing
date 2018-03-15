@@ -6,54 +6,80 @@
 
 // TESTED: WORKS AT 22022018
 
-class Player {
+public class Player {
   
-// variables
-String name;
-int age;
-int placeOnBoard;
-int scoreGames[] = new int[5]; // number of games is parameter
-Dice myDice;
+  // variables
+  private String name;
+  private PImage playerImage;
+  private int placeOnBoard;
+  private int scoreGames[] = new int[5]; // number of games is parameter
+  Dice myDice;
 
-  Player(String nameInit, int ageInit) {
+  // constructor Player
+  Player(String nameInit) {
     name = nameInit;
-    age = ageInit;
     placeOnBoard = 0;
     myDice = new Dice();
   }
   
   /*
-  ADD METHOD to have a visual (picture) on the board
+    ADD METHOD to have a visual (picture) on the board
   */
+  public void setPicture(PImage imageInit) {
+    playerImage = imageInit;
+  }
   
-  // roll the dice
-  void playerRollDice() {
+  public PImage getPicture() {
+    return playerImage;
+  }
+  
+  /*
+    Method to roll dice and get player and automatic changes the position of the player on the board
+  */
+  public void playerRollDice() {
     int rolledEyes = myDice.rollDice();
     changePlaceOnBoard(rolledEyes);
   }
   
-  // get age from player
-  int getAge() {
-    return age;
-  }
-  
-  // get name from player
-  String getName() {
+  /*
+    Method to get name from player. It returns a value (String).
+  */
+  public String getName() {
     return name;
   }
   
-  // get current place on board
-  int getPlaceOnBoard() {
+  /*
+    Method to get current place of the player on the board. It returns a value of a number (int).
+  */
+  public int getPlaceOnBoard() {
     return placeOnBoard;
   }
   
-  // change current place on board
-  void changePlaceOnBoard(int places) {
-    placeOnBoard = placeOnBoard + places;
+  /*
+    Method to change current place on board. It works together with the method playerRollDice().
+  */
+  public void changePlaceOnBoard(int places) {
+    if (placeOnBoard + places == 38) {
+      // method to end game and play last game for the player who wins
+      placeOnBoard = placeOnBoard + places;
+    } else if (placeOnBoard + places > 38) {
+      int teller = 0;
+      for(int i = placeOnBoard;i<38; i++) {
+        placeOnBoard++;
+        teller++;
+      }
+      int backSteps = places - teller;
+      placeOnBoard = placeOnBoard - backSteps;
+    } else {
+      placeOnBoard = placeOnBoard + places;
+    }
+    
   }
   
-  // add scores in scoreGames array
-  void addScorePerGame(String strGameName, int score) {
+  /*
+    Method to add scores in scoreGames array.
+  */
+  public void addScorePerGame(String strGameName, int score) {
     switch(strGameName) {
       case "Game1": scoreGames[0] = score;
                      break;
@@ -70,8 +96,10 @@ Dice myDice;
     }
   }
    
-  // get scores from scoreGames array
-  int getScorePerGame(String strGameName) {
+  /*
+    Method to get scores from scoreGames array.
+  */
+  public int getScorePerGame(String strGameName) {
     switch(strGameName) {
       case "Game 1": return scoreGames[0];
       case "Game 2": return scoreGames[1];
