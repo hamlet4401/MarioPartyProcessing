@@ -8,19 +8,22 @@
 
 // tile one is always -4 because all the players start there and they are not added in the begin. Maybe just add them on that tile before the start of the game
 
-class Tile {
-  // variables
-  int place;
-  String strAction, strCoordinates;
-  String[] strPlayerNamesOnTile = new String[4]; // array with length of number of players in the game (max 4)
-  boolean blnPlayerOnTile = false;
-  boolean blnHasAction;
-  int intNumberPlayersOnTile = 0;
+public class Tile {
   
-  Tile(int placeInit, String actionInit, boolean hasActionInit, String coordinatesInit) {
+  // variables
+  private int place;
+  private String strAction, strCoordinates;
+  private String[] strPlayerNamesOnTile = new String[4]; // array with length of number of players in the game (max 4)
+  private boolean blnPlayerOnTile = false;
+  private boolean blnHasAction, blnHasGame;
+  private int intNumberPlayersOnTile = 0;
+  
+  // constructor Tile
+  Tile(int placeInit, String actionInit, boolean hasActionInit, boolean hasGameInit, String coordinatesInit) {
     place = placeInit;
     strAction = actionInit;
     blnHasAction = hasActionInit;
+    blnHasGame = hasGameInit;
     strCoordinates = coordinatesInit;
     strPlayerNamesOnTile[0] = "";
     strPlayerNamesOnTile[1] = "";
@@ -28,15 +31,45 @@ class Tile {
     strPlayerNamesOnTile[3] = "";
   }
   
-  int getPlaceOfTile() {
+  public boolean hasAction() {
+    return blnHasAction;
+  }
+  
+  public boolean hasGame() {
+    return blnHasGame;
+  }
+  
+  /*
+    Method to get place of tile on board. It returns a value of a number (int).
+  */
+  public int getPlaceOfTile() {
     return place;
   }
   
-  int getNumberPlayersOnTile() {
+  /*
+    Method to get number of players on tile. It returns a value of a number (int).
+  */
+  public int getNumberPlayersOnTile() {
     return intNumberPlayersOnTile;
   }
   
-  void removePlayerOnTile(String strPlayerName) {
+  public String getGame() {
+    return strAction;
+  }
+  
+  public String getAction() {
+    return strAction;
+  }
+  
+  public void doAction() {
+    // steps forward or backward
+  }
+ 
+  
+  /* 
+    Method to remove a player on a tile.
+  */
+  public void removePlayerOnTile(String strPlayerName) {
     if(intNumberPlayersOnTile == 1) {
           blnPlayerOnTile=false;
     }
@@ -50,7 +83,17 @@ class Tile {
     intNumberPlayersOnTile = intNumberPlayersOnTile - 1;
   }
   
-  void addPlayerOnTile(String strPlayerName) {
+  /*
+    Method to set a number of players at the beginning of the game. It uses a parameter with the value how many players that are choosen in the game.
+  */
+  public void setNumberOfPlayersGameInit(int numberOfPlayersInit) {
+    intNumberPlayersOnTile = numberOfPlayersInit;
+  }
+  
+  /*
+    Method to add a player on a tile.
+  */
+  public void addPlayerOnTile(String strPlayerName) {
     blnPlayerOnTile= true;
     intNumberPlayersOnTile = intNumberPlayersOnTile + 1;
     for(int i=0;i<4;i++) {
@@ -62,12 +105,17 @@ class Tile {
     }
   }
   
-  boolean isPlayerOnTile() {
+  /*
+    Method to check if a player is on a specific tile.
+  */
+  public boolean isPlayerOnTile() {
     return blnPlayerOnTile;
   }
   
-  // request and give player names on tile
-  String getPlayerNamesOnTile() {
+  /*
+    Method to get names of players that are on the tile.
+  */
+  public String getPlayerNamesOnTile() {
     String strOutput = "";
     for(int i =0;i<4;i++) {
       if(i==0) {
@@ -79,8 +127,10 @@ class Tile {
     return strOutput;
   }
   
-  // open game if it is an action
-  void openGame(String strGame) {
+  /*
+    Method to open game if it is an action.
+  */
+  public void openGame(String strGame) {
     switch(strGame) {
       case "Game1": 
         // open game 1
@@ -103,8 +153,10 @@ class Tile {
     }
   }
   
-  // perform action when tile has an action
-  String action() {
+  /*
+    Method to perform action when tile has an action.
+  */
+  public String action() {
     return "verander deze method met een actie om een spel op te starten";
   }
   
