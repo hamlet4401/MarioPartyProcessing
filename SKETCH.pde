@@ -1,40 +1,54 @@
-// variables
-  Player[] myPlayers;
-  Tile[] myTiles;
+Game myGame;
+String[] playerNames;
+int numberOfPlayers;
+int screen = 0;
+
+// screen: 0 board, 1 breakout
+
+int teller = 0;
+int playerNumber = 0;
   
 void setup() {
-  // initialize variables
-  myPlayers = new Player[4];
-  myTiles = new Tile[18];
-  for (int i = 0; i<18;i++) {
-    myTiles[i] = new Tile(i,"no action", false, String.valueOf(i));
+  /* 
+    MAKE THESE VARIABLES AS AN INPUT FOR THE PLAYERS
+  */
+  numberOfPlayers = 4;
+  playerNames = new String[numberOfPlayers];
+  for(int i = 0; i<numberOfPlayers;i++) {
+    playerNames[i] = "player" + Integer.toString(i);
   }
-  myPlayers[0] = new Player("player 1", 18);
-  myPlayers[1] = new Player("player 2", 18);
-  myPlayers[2] = new Player("player 3", 18);
-  myPlayers[3] = new Player("player 4", 18);
-  for (int i = 0; i <3; i++) {
-    for (int j=0; j < 4; j++) {
-      myTiles[myPlayers[j].getPlaceOnBoard()].removePlayerOnTile(myPlayers[j].getName());
-      println("Old place " + myPlayers[j].getName()+ ": " + myPlayers[j].getPlaceOnBoard());
-      myPlayers[j].playerRollDice();
-      println("New place " + myPlayers[j].getName()+ ": " + myPlayers[j].getPlaceOnBoard());
-      myTiles[myPlayers[j].getPlaceOnBoard()].addPlayerOnTile(myPlayers[j].getName());
-      println("Player on tile " + myTiles[myPlayers[j].getPlaceOnBoard()].getPlaceOfTile() + " is: " + myTiles[myPlayers[j].getPlaceOnBoard()].getPlayerNamesOnTile());
-      for(int k = 0; k<18;k++) {
-        println(myTiles[k].getNumberPlayersOnTile());
-        println(myTiles[k].getPlayerNamesOnTile());
-        println(myTiles[k].isPlayerOnTile());
-      }
-  
-    }
-  }
-  for(int i = 0; i<18;i++) {
-    println(myTiles[i].getNumberPlayersOnTile());
-    println(myTiles[i].getPlayerNamesOnTile());
-    println(myTiles[i].isPlayerOnTile());
-  }
+  // board background
+  size(736,552);
+  background(255);
+  myGame = new Game();
+  myGame.newGame(4, playerNames);  // start game with 4 players
 }
 
 void draw() {
+  if(screen == 0) {
+    myGame.automatedDelayGame(playerNumber);
+    teller++;
+    delay(2000);
+    if(playerNumber == numberOfPlayers-1) {
+      playerNumber = 0;
+    } else {
+      playerNumber++;
+    }
+  }
+  // fill with minigames
+  else if (screen == 1) {
+    background(255);
+  }
+  else if (screen == 1) {
+    background(255);
+  }
+  else if (screen == 1) {
+    background(255);
+  }
+  else if (screen == 1) {
+    background(255);
+  }
+  else if (screen == 1) {
+    background(255);
+  }
 }
