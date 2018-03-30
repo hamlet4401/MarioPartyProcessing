@@ -22,6 +22,7 @@ public class Dice {
     eyes = random(1,6);
     int eyesRounded = round(eyes);
     println("Dice is rolled: " + eyesRounded);
+    lblAantalOgen.setText(String.valueOf(eyesRounded));
     return eyesRounded;
   }
 }

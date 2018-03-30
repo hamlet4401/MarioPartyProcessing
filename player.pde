@@ -11,6 +11,7 @@ public class Player {
   // variables
   private String name;
   private PImage playerImage;
+  private int score;
   private int placeOnBoard;
   private int scoreGames[] = new int[5]; // number of games is parameter
   Dice myDice;
@@ -18,6 +19,7 @@ public class Player {
   // constructor Player
   Player(String nameInit) {
     name = nameInit;
+    score = 0;
     placeOnBoard = 0;
     myDice = new Dice();
   }
@@ -94,6 +96,14 @@ public class Player {
       default:       // no score
                      break;
     }
+  }
+  
+  public void addScore(int initScore) {
+    score = initScore;
+  }
+  
+  public int getScore() {
+    return score;
   }
    
   /*

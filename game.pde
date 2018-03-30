@@ -29,6 +29,8 @@ public class Game {
     myBoard.setBackground();
     
     // initialize each tile by making new objects of the class Tile with 39 the number of tiles on the board
+    // constructor of tile: Tile(int placeInit, String actionInit, boolean hasActionInit, boolean hasGameInit, String coordinatesInit)
+    // add games to some thiles when a new game is started
     for (int i = 0; i<39;i++) {
       myTiles[i] = new Tile(i,"no action", false, false, String.valueOf(i));
     }
@@ -43,7 +45,7 @@ public class Game {
     }
     
     // give each player its own picture
-    for(int y = 0; y < 4; y++) {
+    for(int y = 0; y < numberOfPlayers; y++) {
       myPlayers[y].setPicture(myBoard.setPictureInit(y));  // with 4 is parameter number of players   
     }
   }
@@ -62,9 +64,49 @@ public class Game {
         myTiles[myPlayers[b].getPlaceOnBoard()].doAction();
       }      
     }
+    if(b == 0) {
+      lblPlaatsSpeler1.setText(String.valueOf(myPlayers[b].getPlaceOnBoard()));
+    } else if(b == 1) {
+      lblPlaatsSpeler2.setText(String.valueOf(myPlayers[b].getPlaceOnBoard()));
+    } else if(b == 2) {
+      lblPlaatsSpeler3.setText(String.valueOf(myPlayers[b].getPlaceOnBoard()));
+    } else if(b == 3) {
+      lblPlaatsSpeler4.setText(String.valueOf(myPlayers[b].getPlaceOnBoard()));
+    }
     myBoard.movePlayerOnBoard(b, myPlayers[b].getPlaceOnBoard());  
     myBoard.playersProjectedOnBoard(numberOfPlayers, myPlayers);
   }  
+  
+  public void gameLoop(int b) {
+    myTiles[myPlayers[b].getPlaceOnBoard()].removePlayerOnTile(myPlayers[b].getName());
+    println("Old place " + myPlayers[b].getName()+ ": " + myPlayers[b].getPlaceOnBoard());
+    myPlayers[b].playerRollDice();
+    println("New place " + myPlayers[b].getName()+ ": " + myPlayers[b].getPlaceOnBoard());
+    myTiles[myPlayers[b].getPlaceOnBoard()].addPlayerOnTile(myPlayers[b].getName());
+    println("Player on tile " + myTiles[myPlayers[b].getPlaceOnBoard()].getPlaceOfTile() + " is: " + myTiles[myPlayers[b].getPlaceOnBoard()].getPlayerNamesOnTile());
+    if(myTiles[myPlayers[b].getPlaceOnBoard()].hasAction()) {
+      if(myTiles[myPlayers[b].getPlaceOnBoard()].hasGame()) {
+        myTiles[myPlayers[b].getPlaceOnBoard()].openGame(myTiles[myPlayers[b].getPlaceOnBoard()].getGame());
+      } else {
+        myTiles[myPlayers[b].getPlaceOnBoard()].doAction();
+      }      
+    }
+    if(b == 0) {
+      lblPlaatsSpeler1.setText(String.valueOf(myPlayers[b].getPlaceOnBoard()));
+    } else if(b == 1) {
+      lblPlaatsSpeler2.setText(String.valueOf(myPlayers[b].getPlaceOnBoard()));
+    } else if(b == 2) {
+      lblPlaatsSpeler3.setText(String.valueOf(myPlayers[b].getPlaceOnBoard()));
+    } else if(b == 3) {
+      lblPlaatsSpeler4.setText(String.valueOf(myPlayers[b].getPlaceOnBoard()));
+    }
+    myBoard.movePlayerOnBoard(b, myPlayers[b].getPlaceOnBoard());  
+    myBoard.playersProjectedOnBoard(numberOfPlayers, myPlayers);
+  }
+  
+  public void projectPlayerBoard() {
+    myBoard.playersProjectedOnBoard(numberOfPlayers, myPlayers);
+  }
 }
 
 /* UNUSED BUT USEFULL CODE */

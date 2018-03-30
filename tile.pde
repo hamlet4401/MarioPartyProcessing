@@ -133,19 +133,20 @@ public class Tile {
   public void openGame(String strGame) {
     switch(strGame) {
       case "Game1": 
+        screen = 2; // code for minigame 1
         // open game 1
         break;
       case "Game2": 
+        screen = 3; // code for minigame 2
         // open game 2
         break;
       case "Game3": 
+        screen = 4; // code for minigame 3
         // open game 3
         break;
       case "Game4": 
+        screen = 5; // code for minigame 4
         // open game 4
-        break;
-      case "Game5": 
-        // open game 5
         break;
       default:  
         // open no game, game is not here
@@ -157,7 +158,7 @@ public class Tile {
     Method to perform action when tile has an action.
   */
   public String action() {
-    return "verander deze method met een actie om een spel op te starten";
+    return "change this method to start an action";
   }
   
 }
