@@ -4,7 +4,6 @@
   Properties:
 */
 
-// NOT TESTED!
 
 public class Game {
   // variables
@@ -12,10 +11,12 @@ public class Game {
   private Tile[] myTiles;
   private Board myBoard;
   int numberOfPlayers;
+  private int placeOnBoard;
+  private int oldPlace, newPlace, diffrencePlace;
   
   // constructor Game
   Game() {
-    
+    // NO INSTANCE VARIABLES NEEDED!!!
   }
   
   public void newGame(int numberOfPlayersInit, String[] playerNames){
@@ -30,23 +31,35 @@ public class Game {
     
     // initialize each tile by making new objects of the class Tile with 39 the number of tiles on the board
     // constructor of tile: Tile(int placeInit, String actionInit, boolean hasActionInit, boolean hasGameInit, String coordinatesInit)
+    /*
+      ACTIONS (string): SNAKE, LADDER, - nameOfGame -, END OF GAME
+      SNAKE on tile: 17, 35
+      LADDER on tile: 4, 19, 25
+      END OF GAME on tile: 38
+    */
     // add games to some thiles when a new game is started
     for (int i = 0; i<39;i++) {
       myTiles[i] = new Tile(i,"no action", false, false, String.valueOf(i));
     }
-    
+    // add ladder on tiles
+    myTiles[4].addLadder("ladder", true);
+    myTiles[19].addLadder("ladder", true);
+    myTiles[25].addLadder("ladder", true);
+    // add snake on tiles
+    myTiles[17].addLadder("snake", true);
+    myTiles[35].addLadder("snake", true);
+    // add end of game to last tile
+    myTiles[38].addEndOfGame("end", true);
     // first ask how many players, use this int to get started with the init
     // set initial number of players on the first tile
     myTiles[0].setNumberOfPlayersGameInit(numberOfPlayers);
-    
     // initialize each player by making new objects of the class Player
     for(int i = 0; i< numberOfPlayers; i++) {
       myPlayers[i] = new Player(playerNames[i]);
     }
-    
     // give each player its own picture
     for(int y = 0; y < numberOfPlayers; y++) {
-      myPlayers[y].setPicture(myBoard.setPictureInit(y));  // with 4 is parameter number of players   
+      myPlayers[y].setPicture(myBoard.getPicture(y));  // with 4 is parameter number of players   
     }
   }
   
@@ -61,7 +74,7 @@ public class Game {
       if(myTiles[myPlayers[b].getPlaceOnBoard()].hasGame()) {
         myTiles[myPlayers[b].getPlaceOnBoard()].openGame(myTiles[myPlayers[b].getPlaceOnBoard()].getGame());
       } else {
-        myTiles[myPlayers[b].getPlaceOnBoard()].doAction();
+        //myTiles[myPlayers[b].getPlaceOnBoard()].doAction();
       }      
     }
     if(b == 0) {
@@ -78,19 +91,27 @@ public class Game {
   }  
   
   public void gameLoop(int b) {
+    // change number of players on current tile
+    oldPlace = myPlayers[b].getPlaceOnBoard();
     myTiles[myPlayers[b].getPlaceOnBoard()].removePlayerOnTile(myPlayers[b].getName());
     println("Old place " + myPlayers[b].getName()+ ": " + myPlayers[b].getPlaceOnBoard());
+    // roll dice for current player
     myPlayers[b].playerRollDice();
+    // next line or uncomment line 43 in Player.class
+    // myPlayers[b].changePlaceOnBoard(myPlayers[b].getEyesRolled());
     println("New place " + myPlayers[b].getName()+ ": " + myPlayers[b].getPlaceOnBoard());
-    myTiles[myPlayers[b].getPlaceOnBoard()].addPlayerOnTile(myPlayers[b].getName());
+    // add player to number of players on current tile
+    newPlace = myPlayers[b].getPlaceOnBoard();
+    //myTiles[myPlayers[b].getPlaceOnBoard()].addPlayerOnTile(myPlayers[b].getName());
     println("Player on tile " + myTiles[myPlayers[b].getPlaceOnBoard()].getPlaceOfTile() + " is: " + myTiles[myPlayers[b].getPlaceOnBoard()].getPlayerNamesOnTile());
-    if(myTiles[myPlayers[b].getPlaceOnBoard()].hasAction()) {
-      if(myTiles[myPlayers[b].getPlaceOnBoard()].hasGame()) {
-        myTiles[myPlayers[b].getPlaceOnBoard()].openGame(myTiles[myPlayers[b].getPlaceOnBoard()].getGame());
-      } else {
-        myTiles[myPlayers[b].getPlaceOnBoard()].doAction();
-      }      
-    }
+    // calculate places between
+    diffrencePlace = newPlace - oldPlace;
+    // add number of players on the current tile
+    myTiles[myPlayers[b].getPlaceOnBoard()].addPlayerOnTile(myPlayers[b].getName());
+  }
+  
+  public void endOfStep(int b) {
+    checkActions(b);
     if(b == 0) {
       lblPlaatsSpeler1.setText(String.valueOf(myPlayers[b].getPlaceOnBoard()));
     } else if(b == 1) {
@@ -106,6 +127,65 @@ public class Game {
   
   public void projectPlayerBoard() {
     myBoard.playersProjectedOnBoard(numberOfPlayers, myPlayers);
+  }
+  
+  public int getEyesRolled(int b) {
+    return myPlayers[b].getEyesRolled();
+  }
+  
+  public void setSteps(int b) {
+    myPlayers[b].changePlaceOnBoard(1);
+    myBoard.movePlayerOnBoard(b, myPlayers[b].getPlaceOnBoard());  
+    myBoard.playersProjectedOnBoard(numberOfPlayers, myPlayers);
+  }
+  
+  public int getPlaceOnBoard(int b) {
+    return myPlayers[b].getPlaceOnBoard();
+  }
+  
+  public void changePlaceOnBoard(int value, int b) {
+    myPlayers[b].changePlaceOnBoard(value);
+    myBoard.movePlayerOnBoard(b, myPlayers[b].getPlaceOnBoard());  
+    myBoard.playersProjectedOnBoard(numberOfPlayers, myPlayers);
+  }
+  
+  public void checkActions(int b) {
+    // check the actions on a tile (game, snake, action or end game)
+    if(myTiles[myPlayers[b].getPlaceOnBoard()].hasAction()) {
+      if(myTiles[myPlayers[b].getPlaceOnBoard()].hasGame()) {
+        myTiles[myPlayers[b].getPlaceOnBoard()].openGame(myTiles[myPlayers[b].getPlaceOnBoard()].getGame());
+      } else {
+        if(myTiles[myPlayers[b].getPlaceOnBoard()].getAction() == "ladder") {
+          delay(1000);
+          if(myTiles[myPlayers[b].getPlaceOnBoard()].getPlaceOfTile() == 4) {
+            placeOnBoard = 9;
+          } else if(myTiles[myPlayers[b].getPlaceOnBoard()].getPlaceOfTile() == 19) {
+            placeOnBoard = 28;
+          } else if(myTiles[myPlayers[b].getPlaceOnBoard()].getPlaceOfTile() == 25) {
+            placeOnBoard = 37;
+          }
+          myTiles[myPlayers[b].getPlaceOnBoard()].removePlayerOnTile(myPlayers[b].getName());
+          myPlayers[b].playerActionOnSnakeLadder(placeOnBoard);
+          myTiles[myPlayers[b].getPlaceOnBoard()].addPlayerOnTile(myPlayers[b].getName());
+        } else if(myTiles[myPlayers[b].getPlaceOnBoard()].getAction() == "snake") {
+          delay(1000);
+          if(myTiles[myPlayers[b].getPlaceOnBoard()].getPlaceOfTile() == 17) {
+            placeOnBoard = 12;
+          } else if(myTiles[myPlayers[b].getPlaceOnBoard()].getPlaceOfTile() == 35) {
+            placeOnBoard = 27;
+          }
+          myTiles[myPlayers[b].getPlaceOnBoard()].removePlayerOnTile(myPlayers[b].getName());
+          myPlayers[b].playerActionOnSnakeLadder(placeOnBoard);
+          myTiles[myPlayers[b].getPlaceOnBoard()].addPlayerOnTile(myPlayers[b].getName());
+        } else if(myTiles[myPlayers[b].getPlaceOnBoard()].getAction() == "end") {
+          delay(1000);
+          // TODO: make a method to end the game
+          // ... .endGame();
+        } else {
+          // do nothing
+        }
+      }      
+    }
   }
 }
 

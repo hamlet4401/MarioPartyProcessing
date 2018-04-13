@@ -204,13 +204,21 @@ public void btnStartspel_event(GButton source, GEvent event) { //_CODE_:btnStart
   lblAantalOgen.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   lblAantalOgen.setText("0");
   lblAantalOgen.setOpaque(false);
-  btnVolgendeZet = new GButton(this, 1210, 630, 80, 30);
-  btnVolgendeZet.setText("Volgende zet");
-  btnVolgendeZet.addEventHandler(this, "button1_click3");
 } //_CODE_:btnStartSpel:589420:
 
 public void button1_click1(GButton source, GEvent event) { //_CODE_:btnOpenHandleiding:433001:
   println("btnOpenHandleiding - GButton >> GEvent." + event + " @ " + millis());
+  /* 
+    TODO: ADD MORE CODE WHEN THE GUIDE IS MADE
+  */
+  windowGuide = GWindow.getWindow(this, "Handleiding", 0, 0, 800, 600, JAVA2D);
+  windowGuide.noLoop();
+  windowGuide.addDrawHandler(this, "win_draw1");
+  lblGuide = new GLabel(windowGuide, 360, 290, 80, 20);
+  lblGuide.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  lblGuide.setText("Handleiding");
+  lblGuide.setOpaque(false);
+  windowGuide.loop();
 } //_CODE_:btnOpenHandleiding:433001:
 
 public void button2_click1(GButton source, GEvent event) { //_CODE_:btnOpenWebsite:814012:
@@ -225,10 +233,34 @@ public void imgButton1_click1(GImageButton source, GEvent event) { //_CODE_:imgB
 public void button1_click2(GButton source, GEvent event) { //_CODE_:btnDobbelen:558669:
   println("btnDobbelen - GButton >> GEvent." + event + " @ " + millis());
   diceIsRolled = true;
+  // sound of a rolling dice
+  
+  /*
+    TODO: ADD THE SOUND OF A ROLLING DICE
+  */
+  
+  //change state of buttons dobbelen and volgendeZet
+  //btnDobbelen.dispose();
+  //btnDobbelen = null;
+  btnDobbelen.setEnabled(false);
+  btnDobbelen.dispose();
+  btnDobbelen = null;
+  diceSound.play();
 } //_CODE_:btnDobbelen:558669:
 
 public void button2_click2(GButton source, GEvent event) { //_CODE_:btnHandleiding:372716:
   println("btnHandleiding - GButton >> GEvent." + event + " @ " + millis());
+  /* 
+    TODO: ADD MORE CODE WHEN THE GUIDE IS MADE
+  */
+  windowGuide = GWindow.getWindow(this, "Handleiding", 0, 0, 800, 600, JAVA2D);
+  windowGuide.noLoop();
+  windowGuide.addDrawHandler(this, "win_draw1");
+  lblGuide = new GLabel(windowGuide, 360, 290, 80, 20);
+  lblGuide.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  lblGuide.setText("Handleiding");
+  lblGuide.setOpaque(false);
+  windowGuide.loop();
 } //_CODE_:btnHandleiding:372716:
 
 public void button3_click1(GButton source, GEvent event) { //_CODE_:btnSluitSpel:582357:
@@ -265,7 +297,23 @@ public void button1_click3(GButton source, GEvent event) { //_CODE_:btnVolgendeZ
   }
   lblAantalOgen.setText("");
   nextStep = true;
+  btnDobbelen = new GButton(this, 1110, 630, 80, 30);
+  btnDobbelen.setText("Dobbelen");
+  btnDobbelen.addEventHandler(this, "button1_click2");
+  btnDobbelen.setEnabled(true);
+  btnVolgendeZet.setEnabled(false);
+  btnVolgendeZet.dispose();
+  btnVolgendeZet = null;
+  
 } //_CODE_:btnVolgendeZet:697498:
+
+synchronized public void win_draw1(PApplet appc, GWinData data) { //_CODE_:windowGuide:815082:
+  appc.background(230);
+} //_CODE_:windowGuide:815082:
+
+public void button1_click4(GButton source, GEvent event) { //_CODE_:button1:835056:
+  println("button1 - GButton >> GEvent." + event + " @ " + millis());
+} //_CODE_:button1:835056:
 
 
 
@@ -382,6 +430,7 @@ public void createGUI(){
   lblPlaatsSpeler1 = new GLabel(this, 1410, 240, 80, 20);
   lblPlaatsSpeler1.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   lblPlaatsSpeler1.setText("Start");
+  lblPlaatsSpeler1.setTextBold();
   lblPlaatsSpeler1.setOpaque(false);
   lblPlaatsSpeler2 = new GLabel(this, 1410, 280, 80, 20);
   lblPlaatsSpeler2.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
@@ -423,6 +472,17 @@ public void createGUI(){
   btnVolgendeZet = new GButton(this, 1210, 630, 80, 30);
   btnVolgendeZet.setText("Volgende zet");
   btnVolgendeZet.addEventHandler(this, "button1_click3");
+  windowGuide = GWindow.getWindow(this, "Handleiding", 0, 0, 800, 600, JAVA2D);
+  windowGuide.noLoop();
+  windowGuide.addDrawHandler(this, "win_draw1");
+  lblGuide = new GLabel(windowGuide, 358, 248, 80, 20);
+  lblGuide.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  lblGuide.setText("Handleiding");
+  lblGuide.setOpaque(false);
+  button1 = new GButton(windowGuide, 475, 400, 80, 30);
+  button1.setText("Toets");
+  button1.addEventHandler(this, "button1_click4");
+  windowGuide.loop();
 }
 
 // Variable declarations 
@@ -464,3 +524,6 @@ GLabel lblSpelerBeurt;
 GLabel lblGedobbeldeOgen; 
 GLabel lblAantalOgen; 
 GButton btnVolgendeZet; 
+GWindow windowGuide;
+GLabel lblGuide; 
+GButton button1; 

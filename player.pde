@@ -14,6 +14,7 @@ public class Player {
   private int score;
   private int placeOnBoard;
   private int scoreGames[] = new int[5]; // number of games is parameter
+  private boolean isOverEnd;
   Dice myDice;
 
   // constructor Player
@@ -22,6 +23,7 @@ public class Player {
     score = 0;
     placeOnBoard = 0;
     myDice = new Dice();
+    isOverEnd = false;
   }
   
   /*
@@ -40,7 +42,15 @@ public class Player {
   */
   public void playerRollDice() {
     int rolledEyes = myDice.rollDice();
-    changePlaceOnBoard(rolledEyes);
+    //changePlaceOnBoard(rolledEyes);
+  }
+  
+  public int getEyesRolled() {
+    return myDice.getRolledEyes();
+  }
+  
+  public void playerActionOnSnakeLadder(int placeOnBoardInit) {
+    placeOnBoard = placeOnBoardInit;
   }
   
   /*
@@ -60,7 +70,8 @@ public class Player {
   /*
     Method to change current place on board. It works together with the method playerRollDice().
   */
-  public void changePlaceOnBoard(int places) {
+  /*
+  public void changePlaceOnBoard(int placeOnBoardInit) {
     if (placeOnBoard + places == 38) {
       // method to end game and play last game for the player who wins
       placeOnBoard = placeOnBoard + places;
@@ -75,7 +86,16 @@ public class Player {
     } else {
       placeOnBoard = placeOnBoard + places;
     }
-    
+    placeOnBoard = placeOnBoard + placeOnBoardInit;
+  }
+  */
+  
+  public void changePlaceOnBoard(int placeOnBoardInit) { 
+    placeOnBoard = placeOnBoardInit;
+  }
+  
+  public void isOverEnd(boolean value) {
+    isOverEnd = value;
   }
   
   /*

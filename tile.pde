@@ -39,6 +39,27 @@ public class Tile {
     return blnHasGame;
   }
   
+  public void addLadder(String actionInit, boolean hasActionInit) {
+    strAction = actionInit;
+    blnHasAction = hasActionInit;
+  }
+  
+  public void addSnake(String actionInit, boolean hasActionInit) {
+    strAction = actionInit;
+    blnHasAction = hasActionInit;
+  }
+  
+  public void addGame(String actionInit, boolean hasActionInit, boolean hasGameInit) {
+    strAction = actionInit;
+    blnHasAction = hasActionInit;
+    blnHasGame = hasGameInit;
+  }
+  
+  public void addEndOfGame(String actionInit, boolean hasActionInit) {
+    strAction = actionInit;
+    blnHasAction = hasActionInit;
+  }
+  
   /*
     Method to get place of tile on board. It returns a value of a number (int).
   */
@@ -61,9 +82,20 @@ public class Tile {
     return strAction;
   }
   
-  public void doAction() {
+  // method is used in Game.class
+  /* public void doAction() {
     // steps forward or backward
-  }
+    if(strAction == "ladder") {
+      
+    } else if(strAction == "snake") {
+      
+    } else if(strAction == "end") {
+      // TODO: make a method to end the game
+      // ... .endGame();
+    } else {
+      // do nothing
+    }
+  } */
  
   
   /* 
@@ -159,6 +191,6 @@ public class Tile {
   */
   public String action() {
     return "change this method to start an action";
+
   }
-  
 }

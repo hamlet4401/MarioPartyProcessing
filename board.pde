@@ -21,9 +21,7 @@ public class Board {
   // constructor Board
   Board(int numberOfPlayersInit) {
     numberOfPlayers = numberOfPlayersInit;
-    for(int i = 0; i<numberOfPlayers; i++) {
-      
-    }
+    //for(int i = 0; i<numberOfPlayers; i++) { ... }
     // board setup
     //boardgame = loadImage("gameboard.jpg");
     //boardgame.resize(0, 550);
@@ -38,7 +36,7 @@ public class Board {
   }
   
   // give a picture to a player
-  public PImage setPictureInit(int numberOfPlayer) {
+  public PImage getPicture(int numberOfPlayer) {
     switch(numberOfPlayer) {
       case 0: 
         // set image 
@@ -241,9 +239,7 @@ public class Board {
       case 2:  image(pictureBlue, x, y);
                break;
       case 3:  image(pictureYellow, x, y);
-               break;
-        
+               break;        
     }
-    
   }
 }
