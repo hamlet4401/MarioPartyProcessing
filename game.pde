@@ -4,8 +4,11 @@
   Properties:
 */
 
+// Need G4P library
+import g4p_controls.*;
 
 public class Game {
+  
   // variables
   private Player[] myPlayers;
   private Tile[] myTiles;
@@ -36,6 +39,7 @@ public class Game {
       SNAKE on tile: 17, 35
       LADDER on tile: 4, 19, 25
       END OF GAME on tile: 38
+      GAME DAMIEN on tile: 1, 2, 3, 4
     */
     // add games to some thiles when a new game is started
     for (int i = 0; i<39;i++) {
@@ -50,6 +54,22 @@ public class Game {
     myTiles[35].addLadder("snake", true);
     // add end of game to last tile
     myTiles[38].addEndOfGame("end", true);
+    // add game of damien
+    myTiles[1].addGame("Game1", true, true);
+    myTiles[2].addGame("Game1", true, true);
+    myTiles[3].addGame("Game1", true, true);
+    myTiles[5].addGame("Game1", true, true);
+    myTiles[6].addGame("Game1", true, true);
+    myTiles[7].addGame("Game1", true, true);
+    myTiles[8].addGame("Game1", true, true);
+    myTiles[9].addGame("Game1", true, true);
+    myTiles[10].addGame("Game1", true, true);
+    myTiles[11].addGame("Game1", true, true);
+    myTiles[12].addGame("Game1", true, true);
+    myTiles[13].addGame("Game1", true, true);
+    myTiles[14].addGame("Game1", true, true);
+    myTiles[15].addGame("Game1", true, true);
+    myTiles[16].addGame("Game1", true, true);
     // first ask how many players, use this int to get started with the init
     // set initial number of players on the first tile
     myTiles[0].setNumberOfPlayersGameInit(numberOfPlayers);
@@ -141,6 +161,15 @@ public class Game {
   
   public int getPlaceOnBoard(int b) {
     return myPlayers[b].getPlaceOnBoard();
+  }
+  
+  public int getScore(int b) {
+    return myPlayers[b].getScore();
+  }
+  
+  public void addScore(int b, int value) {
+    println("Game.class addScore method value: " + value + "playerNumber :" + b);
+    myPlayers[b].addScore(value);
   }
   
   public void changePlaceOnBoard(int value, int b) {

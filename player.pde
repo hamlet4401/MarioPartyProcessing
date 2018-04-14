@@ -119,7 +119,9 @@ public class Player {
   }
   
   public void addScore(int initScore) {
-    score = initScore;
+    println("Player.class addScore method value: " + initScore);
+    score = score + initScore;
+    println("Player.class addScore new score value: " + score);
   }
   
   public int getScore() {

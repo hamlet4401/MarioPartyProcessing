@@ -165,19 +165,20 @@ public class Tile {
   public void openGame(String strGame) {
     switch(strGame) {
       case "Game1": 
-        screen = 2; // code for minigame 1
+        screenBackground = 2; // code for minigame 1
+        gameScreen = 0;
         // open game 1
         break;
       case "Game2": 
-        screen = 3; // code for minigame 2
+        screenBackground = 3; // code for minigame 2
         // open game 2
         break;
       case "Game3": 
-        screen = 4; // code for minigame 3
+        screenBackground = 4; // code for minigame 3
         // open game 3
         break;
       case "Game4": 
-        screen = 5; // code for minigame 4
+        screenBackground = 5; // code for minigame 4
         // open game 4
         break;
       default:  
