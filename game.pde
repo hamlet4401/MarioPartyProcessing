@@ -54,22 +54,19 @@ public class Game {
     myTiles[35].addLadder("snake", true);
     // add end of game to last tile
     myTiles[38].addEndOfGame("end", true);
-    // add game of damien
-    myTiles[1].addGame("Game1", true, true);
-    myTiles[2].addGame("Game1", true, true);
+    // add minigames on tiles
+    myTiles[16].addGame("Game2", true, true);
     myTiles[3].addGame("Game1", true, true);
-    myTiles[5].addGame("Game1", true, true);
-    myTiles[6].addGame("Game1", true, true);
-    myTiles[7].addGame("Game1", true, true);
-    myTiles[8].addGame("Game1", true, true);
-    myTiles[9].addGame("Game1", true, true);
-    myTiles[10].addGame("Game1", true, true);
-    myTiles[11].addGame("Game1", true, true);
-    myTiles[12].addGame("Game1", true, true);
-    myTiles[13].addGame("Game1", true, true);
-    myTiles[14].addGame("Game1", true, true);
-    myTiles[15].addGame("Game1", true, true);
+    myTiles[7].addGame("Game3", true, true);
+    myTiles[10].addGame("Game2", true, true);
+    myTiles[15].addGame("Game4", true, true);
     myTiles[16].addGame("Game1", true, true);
+    myTiles[20].addGame("Game3", true, true);
+    myTiles[23].addGame("Game2", true, true);
+    myTiles[29].addGame("Game4", true, true);
+    myTiles[32].addGame("Game4", true, true);
+    myTiles[33].addGame("Game1", true, true);
+    myTiles[36].addGame("Game3", true, true);
     // first ask how many players, use this int to get started with the init
     // set initial number of players on the first tile
     myTiles[0].setNumberOfPlayersGameInit(numberOfPlayers);

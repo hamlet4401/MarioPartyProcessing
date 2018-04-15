@@ -22,6 +22,7 @@ int screenMiniGame1 = 2;
 int screenMiniGame2 = 3;
 int screenMiniGame3 = 4;
 int screenMiniGame4 = 5;
+int screenPlayerWin = 6;
 int screenGuide = 6;
 int onlyOnce = 1;
 private PImage gameboardBackground;
@@ -181,10 +182,7 @@ public void draw() {
         image(gameboardBackground, 0, 0);
         if(tellerVoorPlaatsen < myGame.getEyesRolled(playerNumber)) {
           tellerVoorPlaatsen++;
-          if (myGame.getPlaceOnBoard(playerNumber) + myGame.getEyesRolled(playerNumber) == 38) {
-            // TODO: add method to end game and play last game for the player who wins
-            myGame.changePlaceOnBoard(myGame.getPlaceOnBoard(playerNumber) + 1, playerNumber);
-          } else if (myGame.getPlaceOnBoard(playerNumber) + myGame.getEyesRolled(playerNumber) > 38) {
+          if (myGame.getPlaceOnBoard(playerNumber) + myGame.getEyesRolled(playerNumber) > 38) {
             if(onceFor38) {
               isSettingStepsTo38 = true;
               onceFor38 = false;
@@ -203,6 +201,13 @@ public void draw() {
           diceIsRolled = true;
         }  
         if(tellerVoorPlaatsen ==  myGame.getEyesRolled(playerNumber)) {
+          if (myGame.getPlaceOnBoard(playerNumber) == 38) {
+            println("player wins");
+            // TODO: add method to end game and play last game for the player who wins
+            isSettingStepsTo38 = false;
+            screenBackground = screenPlayerWin;
+            myGame.changePlaceOnBoard(myGame.getPlaceOnBoard(playerNumber) + 1, playerNumber);
+          }
           endStepGame = true;
         } 
       }
@@ -217,6 +222,29 @@ public void draw() {
       myGame.projectPlayerBoard();
       nextStep = false;
     } 
+  } else if(screenBackground == screenPlayerWin) {
+    //image(startBackground, 0, 0);
+    if(removeGameboardInterface) {
+        removeGameboardUIEndOfGame();
+        removeGameboardInterface = false;
+      }
+    background(44, 62, 80);
+    textAlign(CENTER);
+    fill(255, 255, 255);
+    /*
+    textSize(130);
+    text(playerNames[playerNumber], width/2, height/2 - 235);
+    textSize(65);
+    text("won the game with a score of" , width/2, height/2 - 150);
+    textSize(130);
+    text(myGame.getScore(playerNumber), width/2, height/2);
+    */
+    textSize(130);
+    text(playerNames[playerNumber], width/2, height/2 - 85);
+    textSize(65);
+    text("won the game with a score of" , width/2, height/2);
+    textSize(130);
+    text(myGame.getScore(playerNumber), width/2, height/2 + 150);
   } else if(screenBackground == screenMiniGame1) {
     image(miniGame1Background, 0, 0);
     // TODO: ADD CODE FOR MINI GAME. IF THE GAME ENDS, SET THE VAR screenBackground BACK TO THE GAMEBOARD VALUE!!!
@@ -497,6 +525,59 @@ public void removeGameboardUI() {
   lblAantalOgen.dispose();
   lblAantalOgen = null;
   btnVolgendeZet.dispose();
+  //btnVolgendeZet = null;
+}
+
+public void removeGameboardUIEndOfGame() {
+  if(numberOfPlayers >= 2) {
+    lblSpeler1.dispose();
+    lblSpeler1 = null;
+    lblSpeler2.dispose();
+    lblSpeler2 = null;    
+    lblNamen.dispose();
+    lblNamen = null;
+    lblScore.dispose();
+    lblScore = null;
+    lblScoreSpeler1.dispose();
+    lblScoreSpeler1 = null;
+    lblScoreSpeler2.dispose();
+    lblScoreSpeler2 = null;
+    lblPlaats.dispose();
+    lblPlaats = null;
+    lblPlaatsSpeler1.dispose();
+    lblPlaatsSpeler1 = null;
+    lblPlaatsSpeler2.dispose();
+    lblPlaatsSpeler2 = null;
+  }
+  if(numberOfPlayers >= 3) {
+    lblSpeler3.dispose();
+    lblSpeler3 = null;
+    lblScoreSpeler3.dispose();
+    lblScoreSpeler3 = null;
+    lblPlaatsSpeler3.dispose();
+    lblPlaatsSpeler3 = null;
+  }
+  if(numberOfPlayers == 4) {
+    lblSpeler4.dispose();
+    lblSpeler4 = null;
+    lblScoreSpeler4.dispose();
+    lblScoreSpeler4 = null;
+    lblPlaatsSpeler4.dispose();
+    lblPlaatsSpeler4 = null;
+  }
+  btnHandleiding.dispose();
+  btnHandleiding = null;
+  btnSluitSpel.dispose();
+  btnSluitSpel = null;
+  lblBeurtAan.dispose();
+  lblBeurtAan = null;
+  lblSpelerBeurt.dispose();
+  lblSpelerBeurt = null;
+  lblGedobbeldeOgen.dispose();
+  lblGedobbeldeOgen = null;
+  lblAantalOgen.dispose();
+  lblAantalOgen = null;
+  //btnVolgendeZet.dispose();
   //btnVolgendeZet = null;
 }
 
@@ -974,7 +1055,7 @@ void gameOverScreen() {
   textSize(130);
   text(scoreFlappyMario, width/2, height/2);
   textSize(15);
-  text("Click to Restart", width/2, height-30);
+  //text("Click to Restart", width/2, height-30);
   flappyMarioStay5Seconds = true;
 }
 
