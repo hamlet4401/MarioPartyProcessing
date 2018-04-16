@@ -1,10 +1,3 @@
-/*
-  DICE 
-  Method: RollDice to get a random number between 1 and 6, 1 and 6 included
-  Properties: /
-*/
-
-// TESTED: WORKS AT 22022018
 import processing.sound.*;
 
 public class Dice {

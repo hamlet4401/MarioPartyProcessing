@@ -1,30 +1,15 @@
-/*
-  BOARD
-  Method: 
-  Properties: 
-*/
-
-// TESTED: WORKS AT 15032018
-
 public class Board {
   
-  private int tilesMiddleToMiddleDistance = 66;
-  private PImage boardgame;
   private PImage pictureRed;
   private PImage pictureGreen;
   private PImage pictureBlue;
   private PImage pictureYellow;
-  private int numberOfPlayers;
-  int x =0;
-  int y = 0;
+  private int x =0;
+  private int y = 0;
 
   // constructor Board
   Board(int numberOfPlayersInit) {
     numberOfPlayers = numberOfPlayersInit;
-    //for(int i = 0; i<numberOfPlayers; i++) { ... }
-    // board setup
-    //boardgame = loadImage("gameboard.jpg");
-    //boardgame.resize(0, 550);
     pictureRed = loadImage("red.png");
     pictureRed.resize(0, 40);
     pictureGreen = loadImage("green.png");
@@ -35,7 +20,7 @@ public class Board {
     pictureYellow.resize(0, 40);
   }
   
-  // give a picture to a player
+  // get a picture from a player
   public PImage getPicture(int numberOfPlayer) {
     switch(numberOfPlayer) {
       case 0: 
@@ -55,19 +40,14 @@ public class Board {
     }
   }
   
-  public void setBackground() {
-    // draw board
-    //image(boardgame, 0, 0);
-    //image(pictureRed, 78,60);
-  }
-  
+  // project the players on the gameboard
   public void playersProjectedOnBoard(int numberOfPlayers, Player[] player) {
-    //setBackground();
     for(int i=0; i<numberOfPlayers;i++) {
       movePlayerOnBoard(i,player[i].getPlaceOnBoard());
     }
   }
   
+  // move the player on the board
   public void movePlayerOnBoard(int picture, int position) {    
     switch (position) {
       case 0:

@@ -1,8 +1,6 @@
-// Need G4P library
 import g4p_controls.*;
 import java.awt.Font;
 import java.awt.*;
-// import libraries
 import processing.sound.*;
 import java.net.*;
 import java.io.*;
@@ -14,33 +12,26 @@ import java.net.URISyntaxException;
 Game myGame;
 String[] playerNames;
 int numberOfPlayers;
-// screen: 0 board, 1 breakout
-//int screen = 0;
 private PImage startBackground;
-int screenBackground = 0;
-int screenStartBackground = 0;
-int screenGameboard = 1;
-int screenMiniGame1 = 2;
-int screenMiniGame2 = 3;
-int screenMiniGame3 = 4;
-int screenMiniGame4 = 5;
-int screenPlayerWin = 6;
-int screenGuide = 6;
-int onlyOnce = 1;
+int screenBackground;
+int screenStartBackground;
+int screenGameboard;
+int screenMiniGame1;
+int screenMiniGame2;
+int screenMiniGame3;
+int screenMiniGame4;
+int screenPlayerWin;
+int screenGuide;
+int onlyOnce;
 private PImage gameboardBackground;
-private PImage miniGame1Background;
-private PImage miniGame2Background;
-private PImage miniGame3Background;
-private PImage miniGame4Background;
-private PImage guideBackground;
 URL urlWebsite;
 SoundFile diceSound;
-int teller = 0;
-int tellerPlaces = 0;
-int playerNumber = 0;
-int tellerVoorPlaatsen = 0;
-boolean diceIsRolled = false;
-boolean nextStep = false;
+int teller;
+int tellerPlaces;
+int playerNumber;
+int tellerVoorPlaatsen;
+boolean diceIsRolled;
+boolean nextStep;
 boolean mainGame, stepGame, endStepGame, isSettingStepsTo38, onceFor38;
 
 /*
@@ -49,33 +40,26 @@ boolean mainGame, stepGame, endStepGame, isSettingStepsTo38, onceFor38;
 boolean flappyMarioStay5Seconds, marioFirevisionStay5Seconds, onlyOnceAfterMarioFirevision, makeGameOverScreenMarioFirevision, makeGameOverScreenFlappyMario, removeGameboardInterface, onlyOnceAfterFlappyMario;
 boolean marioArrowStay5Seconds, onlyOnceAfterMarioArrow, makeGameOverScreenMarioArrow;
 int gameScreen = 0;
-//geluid bij doodgaan
 import processing.sound.*;
 SoundFile file;
-//achtergrond afbeleeding
 PImage backgroundFlappyMario;
-// gameplay instellingen
 float gravity = .3;
 float airfriction = 0.00001;
 float friction = 0.1;
-//score en levens
 int scoreFlappyMario = 0;
 int maxHealth = 100;
 float health = 100;
 float healthDecrease = 5;
 int healthBarWidth = 60;
-//de bal
 float ballX, ballY;
 float ballSpeedVert = 0;
 float ballSpeedHorizon = 0;
 float ballSize = 20;
 color ballColor = color(0);
 PImage Mario;
-//plaatform waar de bal op kaatst
 color racketColor = color(0);
 float racketWidth = 150;
 float racketHeight = 15;
-//muren (obstakels)
 int TubeSpeed = 6;
 int TubeInterval = 1500;
 float lastAddTime = 0;
@@ -83,43 +67,36 @@ int minGapHeight = 350;
 int maxGapHeight = 450;
 int TubeWidth = 80;
 color TubeColors = color(44, 62, 80);
-//lijst die muren aanmaakt
 ArrayList<int[]> Tubes = new ArrayList<int[]>();
 
 /*
   Variables Mario firevasion
 */
-//Afbeeldingen laden
  PImage img1;
  PImage img2;
  PImage img3;
  PImage img4;
  PImage img5;
  PImage img6;
-//Hero
 float xMarioFirevasion = 760;    
 float yMarioFirevasion = 700;   
 float speed = 7;  //snelheid van beweging
-//Vijanden
-  float leftPosition = 410;   
-  float ylaser1 = (111.111)+5;
-  float ylaser2 = (222.222)+5;
-  float ylaser3 = (333.333)+5;
-  float ylaser4 = (444.444)+5;
-  float ylaser5 = (555.555)+5;
-//Begin-"stage"
-  int stage = 1;
-//tijd 
-  int startingTime;
-  int n = 1;
-  int interval1 = 1;
-  int interval2 = 2;
-  int interval3 = 3;
-  int interval4 = 4;
-  int interval5 = 5;
-  int livesMarioFirevasion = 3;
-//Vraag: Is Hero dood of levend?
-  boolean life = true; 
+float leftPosition = 410;   
+float ylaser1 = (111.111)+5;
+float ylaser2 = (222.222)+5;
+float ylaser3 = (333.333)+5;
+float ylaser4 = (444.444)+5;
+float ylaser5 = (555.555)+5;
+int stage = 1;
+int startingTime;
+int n = 1;
+int interval1 = 1;
+int interval2 = 2;
+int interval3 = 3;
+int interval4 = 4;
+int interval5 = 5;
+int livesMarioFirevasion = 3;
+boolean life = true; 
   
 /*
   Variables mario arrow
@@ -164,23 +141,32 @@ color fill2;
   
 void setup() { 
   size(1600, 800, JAVA2D);
-  // all windows at the same time
-  //createGUI();
   // create custom GUI without other windows
   customStartGUI();
   // initialize startup variables
   numberOfPlayers = 2;
+  screenBackground = 0;
+  screenStartBackground = 0;
+  screenGameboard = 1;
+  screenMiniGame1 = 2;
+  screenMiniGame2 = 3;
+  screenMiniGame3 = 4;
+  screenMiniGame4 = 5;
+  screenPlayerWin = 6;
+  screenGuide = 6;
+  onlyOnce = 1;
+  teller = 0;
+  tellerPlaces = 0;
+  playerNumber = 0;
+  tellerVoorPlaatsen = 0;
+  diceIsRolled = false;
+  nextStep = false;
   // the third and fourth player is not initialized
   textfield3.setEnabled(false);
   textfield4.setEnabled(false);
   // initialize backgrounds
   startBackground = loadImage("startBackground.png");
   gameboardBackground = loadImage("backgroundG4P.png");
-  miniGame1Background = loadImage("startBackground.png");
-  miniGame2Background = loadImage("startBackground.png");
-  miniGame3Background = loadImage("startBackground.png");
-  miniGame4Background = loadImage("startBackground.png");
-  guideBackground = loadImage("startBackground.png");
   // set default background to start the game
   image(startBackground, 0, 0);
   // initialize game states
@@ -194,7 +180,7 @@ void setup() {
     urlWebsite = new URL("http://users.ugent.be/~lefranss/Project/index.html");
   } 
   catch (MalformedURLException e) {
-      // exception handler code here
+      // exception handler
       println(e);
   }
   // initialize dice sound
@@ -216,7 +202,6 @@ void setup() {
   /* 
     Setup mario firevasion
   */
-  //frameRate(1000);
   img4 = loadImage("startscherm.jpg");
   img1 = loadImage("laser.jpg");
   img2 = loadImage("bowser.png");
@@ -226,13 +211,10 @@ void setup() {
   marioFirevisionStay5Seconds = false;
   onlyOnceAfterMarioFirevision = false;
   makeGameOverScreenMarioFirevision = true;
-  //startingTime = millis( ); //Tijd onthouden vanaf het begin van het spel
   
   /*
     Setup mario arrow
   */
-  //size(1600, 800);
-  //textAlign(CENTER);
   noStroke();
   time=millis();
   rectWidth = 5*dim;
@@ -252,36 +234,52 @@ void setup() {
   runMarioArrow = true;
 }
 
+/*
+  Main game in draw method
+*/
 public void draw() {
-  // switch case and choose which background that needs to be drawn
+  /*
+    Initialization of the game on the first window
+  */
   if(screenBackground == screenStartBackground) {
     image(startBackground, 0, 0);
-  } else if(screenBackground == screenGameboard) {  
+  } 
+  /*
+    Gameboard to play the main game
+  */
+  else if(screenBackground == screenGameboard) {  
+    // project players on gameboard
     myGame.projectPlayerBoard();
+    // set new background after the first window
     while(onlyOnce == 1) {
       image(gameboardBackground, 0, 0);
       onlyOnce = 0;
     }
+    // generate a new UI after Flappy Mario Game
     while(onlyOnceAfterFlappyMario) {
       showGameboardUI();
       myGame.projectPlayerBoard();
       onlyOnceAfterFlappyMario = false;
       image(gameboardBackground, 0, 0);
     }
+    // generate a new UI after Mario Arrow Game
     while(onlyOnceAfterMarioArrow) {
       showGameboardUI();
       myGame.projectPlayerBoard();
       onlyOnceAfterMarioArrow = false;
       image(gameboardBackground, 0, 0);
     }
+    // generate a new UI after Mario Firevision
     while(onlyOnceAfterMarioFirevision) {
       showGameboardUI();
       myGame.projectPlayerBoard();
       onlyOnceAfterMarioFirevision = false;
       image(gameboardBackground, 0, 0);
     }
+    // when the dice is rolled
     if(diceIsRolled) {
       image(gameboardBackground, 0, 0);
+      // play the main game
       if(mainGame) {
         myGame.gameLoop(playerNumber);
         tellerVoorPlaatsen = 0;
@@ -289,6 +287,7 @@ public void draw() {
         stepGame = true;
       }
       diceIsRolled = false;
+      // the end of the steps of a player on the gameboard
       if(endStepGame) {
         image(gameboardBackground, 0, 0);
         myGame.endOfStep(playerNumber);
@@ -305,11 +304,13 @@ public void draw() {
         btnVolgendeZet.addEventHandler(this, "button1_click3");
         btnVolgendeZet.setEnabled(true);
       }
+      // show the steps that the player is doing on the gameboard after rolling the dice
       if(stepGame) {
-        // project every step on the board
         image(gameboardBackground, 0, 0);
+        // only when there are steps to be taken
         if(tellerVoorPlaatsen < myGame.getEyesRolled(playerNumber)) {
           tellerVoorPlaatsen++;
+          // end of the gameboard but not exactly thrown the eyes to become 38
           if (myGame.getPlaceOnBoard(playerNumber) + myGame.getEyesRolled(playerNumber) > 38) {
             if(onceFor38) {
               isSettingStepsTo38 = true;
@@ -325,9 +326,11 @@ public void draw() {
           } else {
             myGame.changePlaceOnBoard(myGame.getPlaceOnBoard(playerNumber) + 1, playerNumber);
           }
+          // 1 second between every step
           delay(1000);
           diceIsRolled = true;
         }  
+        // if the player is on 38 and there are no steps to be taken anymore
         if(tellerVoorPlaatsen ==  myGame.getEyesRolled(playerNumber)) {
           if (myGame.getPlaceOnBoard(playerNumber) == 38) {
             println("player wins");
@@ -340,6 +343,7 @@ public void draw() {
         } 
       }
     }
+    // change variables when the next step is pressed
     if(nextStep) {
       image(gameboardBackground, 0, 0);
       if(playerNumber == numberOfPlayers-1) {
@@ -347,11 +351,16 @@ public void draw() {
       } else {
         playerNumber++;
       }
+      // project players on the gameboard
       myGame.projectPlayerBoard();
       nextStep = false;
     } 
-  } else if(screenBackground == screenPlayerWin) {
-    //image(startBackground, 0, 0);
+  } 
+  /*
+    Screen at end of game
+  */
+  else if(screenBackground == screenPlayerWin) {
+    // end of the game and show score and name of the winner
     if(removeGameboardInterface) {
         removeGameboardUIEndOfGame();
         removeGameboardInterface = false;
@@ -359,311 +368,293 @@ public void draw() {
     background(44, 62, 80);
     textAlign(CENTER);    // after this, set it back to left!!!
     fill(255, 255, 255);
-    /*
-    textSize(130);
-    text(playerNames[playerNumber], width/2, height/2 - 235);
-    textSize(65);
-    text("won the game with a score of" , width/2, height/2 - 150);
-    textSize(130);
-    text(myGame.getScore(playerNumber), width/2, height/2);
-    */
     textSize(130);
     text(playerNames[playerNumber], width/2, height/2 - 85);
     textSize(65);
     text("won the game with a score of" , width/2, height/2);
     textSize(130);
     text(myGame.getScore(playerNumber), width/2, height/2 + 150);
-  } else if(screenBackground == screenMiniGame1) {    // flappy mario
-    image(miniGame1Background, 0, 0);
-    // TODO: ADD CODE FOR MINI GAME. IF THE GAME ENDS, SET THE VAR screenBackground BACK TO THE GAMEBOARD VALUE!!!
+  } 
+  /*
+    Flappy Mario Game
+  */
+  else if(screenBackground == screenMiniGame1) {
     if (gameScreen == 0) { 
       if(removeGameboardInterface) {
         removeGameboardUI();
         removeGameboardInterface = false;
       }
-      initScreen(); //startscherm
+      // start screen
+      initScreen();
     } else if (gameScreen == 1) {
-      gameScreen(); //spel zelf
+      // loop of the game
+      gameScreen();
     } else if (gameScreen == 2) { 
-      // stay for 5 seconds
       if(flappyMarioStay5Seconds) {
-        // change background
+        // stay for 5 seconds
         delay(5000);
+        // change background 
         image(gameboardBackground, 0, 0);
         // change state
         screenBackground = screenGameboard;
+        // variables to the value when the game is stopped
         flappyMarioStay5Seconds = false;
         removeGameboardInterface = true;
         onlyOnceAfterFlappyMario = true;
-        println("flappyMarioStay5Seconds");
         makeGameOverScreenFlappyMario = false;
       }
       if(makeGameOverScreenFlappyMario) {
-        gameOverScreen(); //scherm als je dood bent
+        // screen if the minigame ends
+        gameOverScreen();
         // add score to player
         myGame.addScore(playerNumber, scoreFlappyMario); // maybe add more points
-        // replaced to method just before the score resets to 0
-        println("gameOverScreen();" + scoreFlappyMario + " " + playerNumber);
       }
       makeGameOverScreenFlappyMario = true;
     }
       else if (gameScreen == 3){
-      regels(); //scherm met regels
+        // screen with rules
+        regels();
     }
-  } else if(screenBackground == screenMiniGame2) {  // mario firevision
-    //image(miniGame2Background, 0, 0);
-    // TODO: ADD CODE FOR MINI GAME. IF THE GAME ENDS, SET THE VAR screenBackground BACK TO THE GAMEBOARD VALUE!!!
-    if(stage == 1) {          //startscherm
+  } 
+  /*
+    Mario Firevision Game
+  */
+  else if(screenBackground == screenMiniGame2) { 
+    if(stage == 1) {
+      // remove the gameboard UI
       if(removeGameboardInterface) {
         removeGameboardUI();
         removeGameboardInterface = false;
       }
-      // ADD TO SET IT BACK TO THE RIGHT POSITION!!!
-     textAlign(LEFT);
-     image(img4,0,0,width,height);
-     textSize(100);
-     fill(150,0,0);
-     text("Mario Firevasion", 1600/3.8, 800/10); 
-     textSize(50);
-     fill(150,150,0);
-     text("Press any key to continue", 1600/3.2, 800/1.074626865671642); 
-     if (keyPressed) {
-       stage = 2;
-     }
-   }
-   else {
-     image(img3,0,0, width, height);
-     fill(255);
-     rect(width/3.97,3,width/2.03,height/10.2,7);
-     rect(width/38,height/8.41,305,145,7);
-     fill(25);
-     rect(width/3.95,5,width/2.04,height/10.8,7);
-     rect(width/36,height/8.2,300,140,7);
-     fill(150,0,0);
-     text("Lives left:" + livesMarioFirevasion, 1600/30, 800/5.4);
-     textSize(35);
-     text("Press P to pause", 1600/1.3, 800/1.02);
-     textSize(50);
-     
-     if(stage == 3) {                                                                                      //level 1
-       text("LEVEL 1", 1600/30, 800/4);
-       if (life == true){                             
-         drawHero();
-       }
-       keyPressed();                                                                                        //Beweging Hero
-       drawEnemy();
-       drawProjectile1();
-       finish();
-       textSize(50);
-       if( (keyCode == 'P' || keyCode == 'p') ) {
-         stage = 4;
-       }
-     }
- 
-    if(stage == 4) {                                                                                        //pauze 1
-      image(img6,-50,0, width+50, height);
+      // ADD TO SET IT BACK TO THE RIGHT POSITION (CENTER)!!!
+      textAlign(LEFT);
+      image(img4,0,0,width,height);
+      textSize(100);
+      fill(150,0,0);
+      text("Mario Firevasion", 1600/3.8, 800/10); 
       textSize(50);
       fill(150,150,0);
-      text("Press ENTER to resume", 1600/3.2, 800/1.074626865671642);
+      text("Press any key to continue", 1600/3.2, 800/1.074626865671642); 
+      if (keyPressed) {
+        stage = 2;
+      }
+    }
+    else {
+      image(img3,0,0, width, height);
+      fill(255);
+      rect(width/3.97,3,width/2.03,height/10.2,7);
+      rect(width/38,height/8.41,305,145,7);
+      fill(25);
+      rect(width/3.95,5,width/2.04,height/10.8,7);
+      rect(width/36,height/8.2,300,140,7);
+      fill(150,0,0);
+      text("Lives left:" + livesMarioFirevasion, 1600/30, 800/5.4);
+      textSize(35);
+      text("Press P to pause", 1600/1.3, 800/1.02);
+      textSize(50);
+      // level 1
+      if(stage == 3) {
+        text("LEVEL 1", 1600/30, 800/4);
+        if (life == true){                             
+          drawHero();
+        }
+        // move the hero
+        keyPressed();
+        drawEnemy();
+        drawProjectile1();
+        finish();
+        textSize(50);
+        if( (keyCode == 'P' || keyCode == 'p') ) {
+          stage = 4;
+        }
+      }
+      // pause 1
+      if(stage == 4) {
+        image(img6,-50,0, width+50, height);
+        textSize(50);
+        fill(150,150,0);
+        text("Press ENTER to resume", 1600/3.2, 800/1.074626865671642);
+        if (keyCode == ENTER) {
+          stage = 3;
+        }
+      }
+      // level 2
+      if (stage == 6) {
+        text("LEVEL 2", 1600/30, 800/4);
+        if (life == true){
+          drawHero();
+        }
+        keyPressed();                                                                                       
+        drawEnemy();
+        drawProjectile2();
+        finish();
+        textSize(50);
+        if( (keyCode == 'P' || keyCode == 'p') ) {
+          stage = 7;
+        }
+      } 
+      // pause 2
+      if(stage == 7) {
+        image(img6,-50,0, width+50, height);
+        textSize(50);
+        fill(150,150,0);
+        text("Press ENTER to resume", 1600/3.2, 800/1.074626865671642);
+        if (keyCode == ENTER) {
+          stage = 6;
+        }
+      }
+      // level 3
+      if (stage == 9) {                  
+        text("LEVEL 3", 1600/30, 800/4);
+        if (life == true){
+          drawHero();
+        }
+        keyPressed();
+        drawEnemy();
+        drawProjectile3();
+        finish();
+        textSize(50);
+        if( (keyCode == 'P' || keyCode == 'p') ) {
+          stage = 10;
+        }
+      }
+      // pause 3
+      if(stage == 10) { 
+        image(img6,-50,0, width+50, height);
+        textSize(50);
+        fill(150,150,0);
+        text("Press ENTER to resume", 1600/3.2, 800/1.074626865671642);
+        if (keyCode == ENTER) {
+          stage = 9;
+        }
+      }
+       // end of the game
+      if (stage == 11) {
+        if(marioFirevisionStay5Seconds) {
+          // stay 5 seconds
+          delay(5000);
+          // change background
+          image(gameboardBackground, 0, 0);
+          // change state
+          screenBackground = screenGameboard;
+          // variables to the value when the game is stopped
+          marioFirevisionStay5Seconds = false;
+          removeGameboardInterface = true;
+          onlyOnceAfterMarioFirevision = true;
+          makeGameOverScreenMarioFirevision = false;
+          stage = 1;
+          // reset values for the next time
+          resetMarioFirevision();
+        }
+        if(makeGameOverScreenMarioFirevision) {
+          background(0);
+          fill(25,200,200);
+          textSize(80);
+          text("You win!", 1600/2,800/2);
+          marioFirevisionStay5Seconds = true;
+        }
+        makeGameOverScreenMarioFirevision = true;
+      }
+      // end of the game
+      if (stage == 12) {
+          if(marioFirevisionStay5Seconds) {
+          // stay for 5 seconds
+          delay(5000);
+          // change background
+          image(gameboardBackground, 0, 0);
+          // change state
+          screenBackground = screenGameboard;
+          // variables to the value when the game is stopped
+          marioFirevisionStay5Seconds = false;
+          removeGameboardInterface = true;
+          onlyOnceAfterMarioFirevision = true;
+          makeGameOverScreenMarioFirevision = false;
+          stage = 1;
+          // reset values for the next time
+          resetMarioFirevision();
+        }
+        if(makeGameOverScreenMarioFirevision) {
+          background(0);
+          fill(25,200,200);
+          textSize(80);
+          text("You lose!", 1600/2, 800/2); //scherm als je dood bent
+          marioFirevisionStay5Seconds = true;
+        }
+        makeGameOverScreenMarioFirevision = true;
+      }
+    }
+    // screen when hero is dead
+    if (life == false){
+      if (livesMarioFirevasion > 0) {
+        livesMarioFirevasion--;
+        life = true;
+        yMarioFirevasion = height/1.08;
+      }
+      if (livesMarioFirevasion == 0 ){
+        stage = 12;
+      }
+    }
+    // before level 1
+    if (stage == 2) {
+      background(0);
+      textSize(100);
+      fill(150,0,0);
+      text("Mario Firevasion", 1600/3.8, 800/10); 
+      textSize(50);
+      fill(150,150,0);
+      text("Press ENTER to continue", 1600/3.3, 800/1.074626865671642);
+      textSize(150);
+      text("Ready for level 1?", 1600/11, 800/2);
       if (keyCode == ENTER) {
         stage = 3;
       }
     }
-
-    if (stage == 6) {                                                                                       //level 2
-      text("LEVEL 2", 1600/30, 800/4);
-      if (life == true){
-        drawHero();
-      }
-      keyPressed();                                                                                       
-      drawEnemy();
-      drawProjectile2();
-      finish();
-      textSize(50);
-      if( (keyCode == 'P' || keyCode == 'p') ) {
-        stage = 7;
-      }
-    } 
- 
-    if(stage == 7) {       //pauze 2
-      image(img6,-50,0, width+50, height);
+    // before level 2
+    if (stage == 5) {
+      background(0);
+      textSize(100);
+      fill(150,0,0);
+      text("Mario Firevasion", 1600/3.8, 800/10); 
       textSize(50);
       fill(150,150,0);
-      text("Press ENTER to resume", 1600/3.2, 800/1.074626865671642);
+      text("Press ENTER to continue", 1600/3.3, 800/1.074626865671642);
+      text("You passed!", width/2.4, height/5);
+      textSize(150);
+      text("Ready for level 2?", width/11, height/2);
       if (keyCode == ENTER) {
         stage = 6;
       }
     }
- 
-    if (stage == 9) {                                                                                     //level 3
-      text("LEVEL 3", 1600/30, 800/4);
-      if (life == true){
-        drawHero();
-      }
-      keyPressed();
-      drawEnemy();
-      drawProjectile3();
-      finish();
-      textSize(50);
-      if( (keyCode == 'P' || keyCode == 'p') ) {
-        stage = 10;
-      }
-    }
- 
-    if(stage == 10) {                                                                                    //pauze 3
-      image(img6,-50,0, width+50, height);
+    // before level 3
+    if (stage == 8) {
+      background(0);
+      textSize(100);
+      fill(150,0,0);
+      text("Mario Firevasion", width/3.8, height/10); 
       textSize(50);
       fill(150,150,0);
-      text("Press ENTER to resume", 1600/3.2, 800/1.074626865671642);
+      text("Press ENTER to continue", width/3.3, height/1.074626865671642);
+      text("You passed!", width/2.4, height/5);
+      textSize(150);
+      text("Ready for level 3?", width/11, height/2);
       if (keyCode == ENTER) {
         stage = 9;
       }
     }
- 
-    if (stage == 11) {                                                                                    //Scherm bij het einde van spel
-       /*
-       background(0);
-       fill(25,200,200);
-       textSize(80);
-       text("You win!", width/2,height/2);      
-       */
-       // stay for 5 seconds
-      if(marioFirevisionStay5Seconds) {
-        // add button for next step
-        // change background
-        delay(5000);
-        image(gameboardBackground, 0, 0);
-        // change state
-        screenBackground = screenGameboard;
-        marioFirevisionStay5Seconds = false;
-        removeGameboardInterface = true;
-        onlyOnceAfterMarioFirevision = true;
-        makeGameOverScreenMarioFirevision = false;
-        println("marioFirevision stay 5 seconds stage 11");
-        stage = 1;
-        resetMarioFirevision();
-      }
-      if(makeGameOverScreenMarioFirevision) {
-        background(0);
-        fill(25,200,200);
-        textSize(80);
-        text("You win!", 1600/2,800/2);
-        marioFirevisionStay5Seconds = true;
-        // add score to player
-        //myGame.addScore(playerNumber, scoreFlappyMario); // maybe add more points
-        // replaced to method just before the score resets to 0
-        println("gameOverScreen(); mario firevision stage 11");
-      }
-      makeGameOverScreenMarioFirevision = true;
-      /*
-      
-      */
-    }
-    if (stage == 12) {                                                                                    //Scherm bij het einde van spel
-       /*
-       background(0);
-       fill(25,200,200);
-       textSize(80);
-       text("You lose!", width/2,height/2);
-       */
-       // stay for 5 seconds
-      if(marioFirevisionStay5Seconds) {
-        // add button for next step
-        // change background
-        delay(5000);
-        image(gameboardBackground, 0, 0);
-        // change state
-        screenBackground = screenGameboard;
-        marioFirevisionStay5Seconds = false;
-        removeGameboardInterface = true;
-        onlyOnceAfterMarioFirevision = true;
-        makeGameOverScreenMarioFirevision = false;
-        println("marioFirevision stay 5 seconds stage 12");
-        stage = 1;
-        resetMarioFirevision();
-      }
-      if(makeGameOverScreenMarioFirevision) {
-        background(0);
-        fill(25,200,200);
-        textSize(80);
-        text("You lose!", 1600/2, 800/2); //scherm als je dood bent
-        marioFirevisionStay5Seconds = true;
-        // add score to player
-        //myGame.addScore(playerNumber, scoreFlappyMario); // maybe add more points
-        // replaced to method just before the score resets to 0
-        println("gameOverScreen(); mario firevision stage 12");
-      }
-      makeGameOverScreenMarioFirevision = true;
-      /*
-      
-      */
-    }
   }
-  
-  if (life == false){                                                                                 //Scherm bij doodgaan Hero
-     if (livesMarioFirevasion > 0) {
-       livesMarioFirevasion--;
-       life = true;
-       yMarioFirevasion = height/1.08;
-     }
-     if (livesMarioFirevasion == 0 ){
-       stage = 12;
-     }
-  }
-   if (stage == 2) {                                                                                       //Pre.level1
-     background(0);
-     textSize(100);
-     fill(150,0,0);
-     text("Mario Firevasion", 1600/3.8, 800/10); 
-     textSize(50);
-     fill(150,150,0);
-     text("Press ENTER to continue", 1600/3.3, 800/1.074626865671642);
-     textSize(150);
-     text("Ready for level 1?", 1600/11, 800/2);
-     if (keyCode == ENTER) {
-       stage = 3;
-     }
-   }
-   if (stage == 5) {                                                                                       //Pre.level2
-     background(0);
-     textSize(100);
-     fill(150,0,0);
-     text("Mario Firevasion", 1600/3.8, 800/10); 
-     textSize(50);
-     fill(150,150,0);
-     text("Press ENTER to continue", 1600/3.3, 800/1.074626865671642);
-     text("You passed!", width/2.4, height/5);
-     textSize(150);
-     text("Ready for level 2?", width/11, height/2);
-     if (keyCode == ENTER) {
-       stage = 6;
-     }
-   }
-   if (stage == 8) {                                                                                       //Pre.level3
-     background(0);
-     textSize(100);
-     fill(150,0,0);
-     text("Mario Firevasion", width/3.8, height/10); 
-     textSize(50);
-     fill(150,150,0);
-     text("Press ENTER to continue", width/3.3, height/1.074626865671642);
-     text("You passed!", width/2.4, height/5);
-     textSize(150);
-     text("Ready for level 3?", width/11, height/2);
-     if (keyCode == ENTER) {
-       stage = 9;
-     }
-   }
-  } else if(screenBackground == screenMiniGame3) {  // mario arrow
-    //image(miniGame3Background, 0, 0);
-    // TODO: ADD CODE FOR MINI GAME. IF THE GAME ENDS, SET THE VAR screenBackground BACK TO THE GAMEBOARD VALUE!!!
+  /*
+    Mario Arrow Game
+  */
+  else if(screenBackground == screenMiniGame3) {
+    // remove GUI
     if(removeGameboardInterface) {
         removeGameboardUI();
         removeGameboardInterface = false;
     }
+    // set text to center of position
     textAlign(CENTER);
+    // only when the game is running
     if(runMarioArrow) {
-      
       scenery();
       scoreMarioArrow();
       time();
@@ -672,20 +663,22 @@ public void draw() {
       movingRect();
       println("runMarioArrow");
     }
-    if( tijd == 0 && tellerMarioArrow > 20){       //winst
+    // check if the game is stopped
+    if( tijd == 0 && tellerMarioArrow > 20){
       if(marioArrowStay5Seconds) {
-        // add button for next step
-        // change background
+        // stay 5 seconds
         delay(5000);
+        // change background
         image(gameboardBackground, 0, 0, width, height);
         // change state
         screenBackground = screenGameboard;
+        // variables to the value when the game is stopped
         marioArrowStay5Seconds = false;
         removeGameboardInterface = true;
         onlyOnceAfterMarioArrow = true;
         makeGameOverScreenMarioArrow = false;
-        println("marioArrow stay 5 seconds");
         runMarioArrow = true;
+        // reset the game for the next time
         resetMarioArrow();
       }
       if(makeGameOverScreenMarioArrow) {
@@ -699,52 +692,46 @@ public void draw() {
         text("score: " + tellerMarioArrow, width/2, -height/4 + 8*dim);
         marioArrowStay5Seconds = true;
         // add score to player
-        //myGame.addScore(playerNumber, scoreFlappyMario); // maybe add more points
-        // replaced to method just before the score resets to 0
-        println("gameOverScreen(); mario arrow");
+        //myGame.addScore(playerNumber, scoreFlappyMario);
+        // game is stopped
         runMarioArrow = false;
       }
       makeGameOverScreenMarioArrow = true;
     } else if(tijd == 0 && tellerMarioArrow < 20){        //verlies
       // stay for 5 seconds
       if(marioArrowStay5Seconds) {
-        // add button for next step
-        // change background
+        // stay 5 seconds
         delay(5000);
+        // change background
         image(gameboardBackground, 0, 0, width, height);
         // change state
         screenBackground = screenGameboard;
+        // variables to the value when the game is stopped
         marioArrowStay5Seconds = false;
         removeGameboardInterface = true;
         onlyOnceAfterMarioArrow = true;
         makeGameOverScreenMarioArrow = false;
-        println("marioArrow stay 5 seconds");
         runMarioArrow = true;
+        // reset the game for the next time
         resetMarioArrow();
       }
       if(makeGameOverScreenMarioArrow) {
         x = -2*dim;
         y = 0;
-        //text("Game over", width/2, height/4);
         fill = rood;
         image(imgGameOver, midX + width/4 - dim/2 , midY - height/4 - 3*dim, width/2, height/2);
         fill(255);
         marioArrowStay5Seconds = true;
         // add score to player
-        //myGame.addScore(playerNumber, scoreFlappyMario); // maybe add more points
-        // replaced to method just before the score resets to 0
-        println("gameOverScreen(); mario arrow");
+        //myGame.addScore(playerNumber, scoreFlappyMario);
+        // game is stopped
         runMarioArrow =false;
       }
       makeGameOverScreenMarioArrow = true;
     }
-    //winstVerlies();
-    
   } else if(screenBackground == screenMiniGame4) {
-    image(miniGame4Background, 0, 0);
     // TODO: ADD CODE FOR MINI GAME. IF THE GAME ENDS, SET THE VAR screenBackground BACK TO THE GAMEBOARD VALUE!!!
   } else if(screenBackground == screenGuide) {
-    image(guideBackground, 0, 0);
     // TODO: ADD CODE FOR MINI GAME. IF THE GAME ENDS, SET THE VAR screenBackground BACK TO THE GAMEBOARD VALUE!!!
   } else {
     // No known background? Well... then you are a stupid developer because it is not possible if you have done it right!
@@ -817,7 +804,9 @@ public void customStartGUI(){
   btnOpenWebsite.addEventHandler(this, "button2_click1");
 }
 
-// with myPlayers names and scores!!!!!!!
+/*
+  Method to show the gamebord ui after it was removed 
+*/
 public void showGameboardUI() {
   // add new elements to UI according to how many players there are
   if(numberOfPlayers >= 2) {
@@ -888,9 +877,6 @@ public void showGameboardUI() {
     lblPlaatsSpeler4.setText(Integer.toString(myGame.getPlaceOnBoard(3)));
     lblPlaatsSpeler4.setOpaque(false);
   }
-  //btnDobbelen = new GButton(this, 1110, 630, 80, 30);
-  //btnDobbelen.setText("Dobbelen");
-  //btnDobbelen.addEventHandler(this, "button1_click2");
   btnHandleiding = new GButton(this, 1340, 630, 80, 30);
   btnHandleiding.setText("Handleiding");
   btnHandleiding.addEventHandler(this, "button2_click2");
@@ -918,6 +904,10 @@ public void showGameboardUI() {
   btnVolgendeZet.setText("Volgende zet");
   btnVolgendeZet.addEventHandler(this, "button1_click3");
 }
+
+/*
+  Remove the gameboard UI
+*/
 
 public void removeGameboardUI() {
   if(numberOfPlayers >= 2) {
@@ -972,6 +962,9 @@ public void removeGameboardUI() {
   //btnVolgendeZet = null;
 }
 
+/*
+  Remove the gamebord UI at hte end of the game
+*/
 public void removeGameboardUIEndOfGame() {
   if(numberOfPlayers >= 2) {
     lblSpeler1.dispose();
@@ -1025,6 +1018,9 @@ public void removeGameboardUIEndOfGame() {
   //btnVolgendeZet = null;
 }
 
+/*
+  Method to add a gameboard UI after it was removed
+*/
 public void customGameBoardUI() {
   // add new elements to UI according to how many players there are
   if(numberOfPlayers >= 2) {
@@ -1127,7 +1123,7 @@ public void customGameBoardUI() {
   btnVolgendeZet.addEventHandler(this, "button1_click3");
 }
 
-// methods to open a link
+// method to open a link
 public static boolean openWebpage(URI uri) {
     Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
     if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
@@ -1141,6 +1137,7 @@ public static boolean openWebpage(URI uri) {
     return false;
 }
 
+// method to open a link
 public static boolean openWebpage(URL url) {
     try {
         return openWebpage(url.toURI());
@@ -1559,169 +1556,168 @@ void checkScore(){
   Methods game mario firevision
 */
 void keyPressed() {                                                                                   // Verplaatsen met pijltjestoesten, alleen in y-richting
-    if (keyPressed == true) {
-       if (keyCode == UP) {
-          yMarioFirevasion = yMarioFirevasion - speed;
-        }
-      else {
-        if (keyCode == DOWN) {
-            yMarioFirevasion = yMarioFirevasion + speed;
-        }
+  if (keyPressed == true) {
+    if (keyCode == UP) {
+      yMarioFirevasion = yMarioFirevasion - speed;
+    }
+    else {
+      if (keyCode == DOWN) {
+        yMarioFirevasion = yMarioFirevasion + speed;
       }
-    } 
+    }
+  } 
 }
 
 void drawEnemy() {
-    for (float b = (height/7.2); b < (height/1.348314606741573); b = b+(height/7.2) ) {
-       if (b < (height/1.348314606741573)) {
-          image(img2, leftPosition, b, width/30, height/21.6);
-       }
-     }
+  for (float b = (height/7.2); b < (height/1.348314606741573); b = b+(height/7.2) ) {
+    if (b < (height/1.348314606741573)) {
+    image(img2, leftPosition, b, width/30, height/21.6);
+    }
+  }
 }
  
 void drawProjectile1() {                                                                              //Lasers voor level 1
-    int seconds = (millis() - startingTime)/1000;
-    for (n = 1; n<1000; n++) {
-                                                                                                      //Positie van lasers en intervallen 1
-      if ( seconds == (interval3*n) ) {
-        image(img1, leftPosition+(width/30), ylaser1, (width/2.212389380530973), height/36);
-      }
-      if ( seconds == 2+(interval2*n) ) {
-        image(img1, leftPosition+(width/30), ylaser2, (width/2.212389380530973), height/36);
-      }
-      if ( seconds == 1+(interval4*n) ) {
-        image(img1, leftPosition+(width/30), ylaser3, (width/2.212389380530973), height/36);
-      }
-      if ( seconds == 0+(interval5*n) ) {
-        image(img1, leftPosition+(width/30), ylaser4, (width/2.212389380530973), height/36);
-      }
-      if ( seconds == -1+(interval2*n) ) {
-        image(img1, leftPosition+(width/30), ylaser5, (width/2.212389380530973), height/36);
-      }
+  int seconds = (millis() - startingTime)/1000;
+  for (n = 1; n<1000; n++) {
+    //Positie van lasers en intervallen 1
+    if ( seconds == (interval3*n) ) {
+      image(img1, leftPosition+(width/30), ylaser1, (width/2.212389380530973), height/36);
     }
+    if ( seconds == 2+(interval2*n) ) {
+      image(img1, leftPosition+(width/30), ylaser2, (width/2.212389380530973), height/36);
+    }
+    if ( seconds == 1+(interval4*n) ) {
+      image(img1, leftPosition+(width/30), ylaser3, (width/2.212389380530973), height/36);
+    }
+    if ( seconds == 0+(interval5*n) ) {
+      image(img1, leftPosition+(width/30), ylaser4, (width/2.212389380530973), height/36);
+    }
+    if ( seconds == -1+(interval2*n) ) {
+      image(img1, leftPosition+(width/30), ylaser5, (width/2.212389380530973), height/36);
+    }
+  }
 }
  
- void drawProjectile2() {                                                                             // lasers voor level 2
-    int seconds = (millis() - startingTime)/1000;
-    for (n = 1; n<1000; n++)
-    {
-                                                                                                      //Positie van lasers en intervallen 2
-      if ( seconds == (interval3*n) ) {
-        image(img1, leftPosition+(width/30), ylaser1, (width/2.212389380530973), height/36);
-      }
-      if ( seconds == 0+(interval2*n) ) {
-        image(img1, leftPosition+(width/30), ylaser2, (width/2.212389380530973), height/36);
-      }
-      if ( seconds == 2+(interval3*n) ) {
-        image(img1, leftPosition+(width/30), ylaser3, (width/2.212389380530973), height/36);
-      }
-      if ( seconds == 2+(interval4*n) ) {
-        image(img1, leftPosition+(width/30), ylaser4, (width/2.212389380530973), height/36);
-      }
-      if ( seconds == 3+(interval5*n) ) {
-        image(img1, leftPosition+(width/30), ylaser5, (width/2.212389380530973), height/36);
-      }
+void drawProjectile2() {                                                                             // lasers voor level 2
+  int seconds = (millis() - startingTime)/1000;
+  for (n = 1; n<1000; n++)
+  {                                                                                                   //Positie van lasers en intervallen 2
+    if ( seconds == (interval3*n) ) {
+      image(img1, leftPosition+(width/30), ylaser1, (width/2.212389380530973), height/36);
     }
+    if ( seconds == 0+(interval2*n) ) {
+      image(img1, leftPosition+(width/30), ylaser2, (width/2.212389380530973), height/36);
+    }
+    if ( seconds == 2+(interval3*n) ) {
+      image(img1, leftPosition+(width/30), ylaser3, (width/2.212389380530973), height/36);
+    }
+    if ( seconds == 2+(interval4*n) ) {
+      image(img1, leftPosition+(width/30), ylaser4, (width/2.212389380530973), height/36);
+    }
+    if ( seconds == 3+(interval5*n) ) {
+      image(img1, leftPosition+(width/30), ylaser5, (width/2.212389380530973), height/36);
+    }
+  }
 }
  
-void drawProjectile3() {                                                                             //Lasers voor level 3
-    int seconds = (millis() - startingTime)/1000;
-    for (n = 1; n<1000; n++) { 
-                                                                                                      //Positie van lasers en intervallen 3
-      if ( seconds == (interval3*n) ) {
-        image(img1, leftPosition+(width/30), ylaser1, (width/2.212389380530973), height/36);
-      }
-      if ( seconds == 0+(interval5*n) ) {
-        image(img1, leftPosition+(width/30), ylaser2, (width/2.212389380530973), height/36);
-      }
-      if ( seconds == 3+(interval5*n) ) {
-        image(img1, leftPosition+(width/30), ylaser3, (width/2.212389380530973), height/36);
-      }
-      if ( seconds == 2+(interval2*n) ) {
-        image(img1, leftPosition+(width/30), ylaser4, (width/2.212389380530973), height/36);
-      }
-      if ( seconds == 1+(interval3*n) ) {
-        image(img1, leftPosition+(width/30), ylaser5, (width/2.212389380530973), height/36);
-      }
+void drawProjectile3() {                                                                             
+  //Lasers voor level 3
+  int seconds = (millis() - startingTime)/1000;
+  for (n = 1; n<1000; n++) { 
+    //Positie van lasers en intervallen 3
+    if ( seconds == (interval3*n) ) {
+      image(img1, leftPosition+(width/30), ylaser1, (width/2.212389380530973), height/36);
     }
+    if ( seconds == 0+(interval5*n) ) {
+      image(img1, leftPosition+(width/30), ylaser2, (width/2.212389380530973), height/36);
+    }
+    if ( seconds == 3+(interval5*n) ) {
+      image(img1, leftPosition+(width/30), ylaser3, (width/2.212389380530973), height/36);
+    }
+    if ( seconds == 2+(interval2*n) ) {
+      image(img1, leftPosition+(width/30), ylaser4, (width/2.212389380530973), height/36);
+    }
+    if ( seconds == 1+(interval3*n) ) {
+      image(img1, leftPosition+(width/30), ylaser5, (width/2.212389380530973), height/36);
+    }
+  }
 }
  
  
-void drawHero() {                                                                                  //Tekent Hero, de ster
-    int seconds = (millis() - startingTime)/1000;                                                    //Tijd onthouden
-    image(img5, xMarioFirevasion, yMarioFirevasion, width/27, height/24 );
-    for (n = 1; n<1000; n++) {
-  
-      if (stage == 3){                                                                               //Het doodgaan in LEVEL1 met bijhorende intervallen gebruikt in Projectile1
-        if ( yMarioFirevasion < ylaser1+(height/36) && yMarioFirevasion > ylaser1-(height/24) && seconds == (interval3*n)){
-          life = false;
-        }
-        if ( yMarioFirevasion < ylaser2+(height/36) && yMarioFirevasion > ylaser2-(height/24) && seconds == 2+(interval2*n)){
-          life = false;
-        }
-        if ( yMarioFirevasion < ylaser3+(height/36) && yMarioFirevasion > ylaser3-(height/24) && seconds == 1+(interval4*n)){
-          life = false;
-        }   
-        if ( yMarioFirevasion < ylaser4+(height/36) && yMarioFirevasion > ylaser4-(height/24) && seconds == 0+(interval5*n)){
-          life = false;
-        }
-        if ( yMarioFirevasion < ylaser5+(height/36) && yMarioFirevasion > ylaser5-(height/24) && seconds == -1+(interval2*n)){
-          life = false;
-        }
-      }
-  
-      if (stage == 6){                                                                                    //Het doodgaan in LEVEL2 met bijhorende intervallen gebruikt in Projectile2
-        if ( yMarioFirevasion < ylaser1+(height/36) && yMarioFirevasion > ylaser1-(height/24) && seconds == (interval3*n)){
-          life = false;
-        }
-        if ( yMarioFirevasion < ylaser2+(height/36) && yMarioFirevasion > ylaser2-(height/24) && seconds == (interval2*n)){
-          life = false;
-        } 
-        if ( yMarioFirevasion < ylaser3+(height/36) && yMarioFirevasion > ylaser3-(height/24) && seconds == 2+(interval3*n)){
-          life = false;
-        }
-        if ( yMarioFirevasion < ylaser4+(height/36) && yMarioFirevasion > ylaser4-(height/24) && seconds == 2+(interval4*n)){
-          life = false;
-        }
-        if ( yMarioFirevasion < ylaser5+(height/36) && yMarioFirevasion > ylaser5-(height/24) && seconds == 3+(interval5*n)){
+void drawHero() {     
+  //Tekent Hero, de ster
+  int seconds = (millis() - startingTime)/1000;                                                    
+  //Tijd onthouden
+  image(img5, xMarioFirevasion, yMarioFirevasion, width/27, height/24 );
+  for (n = 1; n<1000; n++) {
+    if (stage == 3){                                                                               //Het doodgaan in LEVEL1 met bijhorende intervallen gebruikt in Projectile1
+      if ( yMarioFirevasion < ylaser1+(height/36) && yMarioFirevasion > ylaser1-(height/24) && seconds == (interval3*n)){
         life = false;
-        }
-      }  
-  
-      if (stage == 9){                                                                                    //Het doodgaan in LEVEL3 met bijhorende intervallen gebruikt in Projectile3
-        if ( yMarioFirevasion < ylaser1+(height/36) && yMarioFirevasion > ylaser1-(height/24) && seconds == (interval3*n)){
-          life = false;
-        }
-        if ( yMarioFirevasion < ylaser2+(height/36) && yMarioFirevasion > ylaser2-(height/24) && seconds == (interval5*n)){
-          life = false;
-        }
-        if ( yMarioFirevasion < ylaser3+(height/36) && yMarioFirevasion > ylaser3-(height/24) && seconds == 3+(interval5*n)){
-          life = false;
-        }
-        if ( yMarioFirevasion < ylaser4+(height/36) && yMarioFirevasion > ylaser4-(height/24) && seconds == 2+(interval2*n)){
-          life = false;
-        }
-        if ( yMarioFirevasion < ylaser5+(height/36) && yMarioFirevasion > ylaser5-(height/24) && seconds == 1+(interval3*n)){
-          life = false;
-        }
+      }
+      if ( yMarioFirevasion < ylaser2+(height/36) && yMarioFirevasion > ylaser2-(height/24) && seconds == 2+(interval2*n)){
+        life = false;
+      }
+      if ( yMarioFirevasion < ylaser3+(height/36) && yMarioFirevasion > ylaser3-(height/24) && seconds == 1+(interval4*n)){
+        life = false;
+      }   
+      if ( yMarioFirevasion < ylaser4+(height/36) && yMarioFirevasion > ylaser4-(height/24) && seconds == 0+(interval5*n)){
+        life = false;
+      }
+      if ( yMarioFirevasion < ylaser5+(height/36) && yMarioFirevasion > ylaser5-(height/24) && seconds == -1+(interval2*n)){
+        life = false;
+      }
+    }
+    if (stage == 6){                                                                                    //Het doodgaan in LEVEL2 met bijhorende intervallen gebruikt in Projectile2
+      if ( yMarioFirevasion < ylaser1+(height/36) && yMarioFirevasion > ylaser1-(height/24) && seconds == (interval3*n)){
+        life = false;
+      }
+      if ( yMarioFirevasion < ylaser2+(height/36) && yMarioFirevasion > ylaser2-(height/24) && seconds == (interval2*n)){
+        life = false;
+      } 
+      if ( yMarioFirevasion < ylaser3+(height/36) && yMarioFirevasion > ylaser3-(height/24) && seconds == 2+(interval3*n)){
+        life = false;
+      }
+      if ( yMarioFirevasion < ylaser4+(height/36) && yMarioFirevasion > ylaser4-(height/24) && seconds == 2+(interval4*n)){
+        life = false;
+      }
+      if ( yMarioFirevasion < ylaser5+(height/36) && yMarioFirevasion > ylaser5-(height/24) && seconds == 3+(interval5*n)){
+      life = false;
       }
     }  
+    if (stage == 9){                                                                                    //Het doodgaan in LEVEL3 met bijhorende intervallen gebruikt in Projectile3
+      if ( yMarioFirevasion < ylaser1+(height/36) && yMarioFirevasion > ylaser1-(height/24) && seconds == (interval3*n)){
+        life = false;
+      }
+      if ( yMarioFirevasion < ylaser2+(height/36) && yMarioFirevasion > ylaser2-(height/24) && seconds == (interval5*n)){
+        life = false;
+      }
+      if ( yMarioFirevasion < ylaser3+(height/36) && yMarioFirevasion > ylaser3-(height/24) && seconds == 3+(interval5*n)){
+        life = false;
+      }
+      if ( yMarioFirevasion < ylaser4+(height/36) && yMarioFirevasion > ylaser4-(height/24) && seconds == 2+(interval2*n)){
+        life = false;
+      }
+      if ( yMarioFirevasion < ylaser5+(height/36) && yMarioFirevasion > ylaser5-(height/24) && seconds == 1+(interval3*n)){
+        life = false;
+      }
+    }
+  }  
 }
  
 void finish() {                                                                              
-    if (yMarioFirevasion < (height/11)) {                                                                                         //Finishline!
-      if (stage == 3) {                                                                                    //Overgaan van LEVEL1 naar LEVEL2
-        yMarioFirevasion = height/1.08;                                                                                          //Terug naar beginpositie gaan en dan pas stage veranderen
-        stage = 5;
-      }
-      else if (stage == 6) {                                                                               //Overgaan van LEVEL2 naar LEVEL3
-        yMarioFirevasion = height/1.08;                                                                                          //Terug naar beginpositie gaan en dan pas stage veranderen
-        stage = 8; 
-      }
-      else if (stage == 9) {                                                                               //Overgaan van LEVEL3 naar eindscherm
-        stage = 11;
-      }
+  if (yMarioFirevasion < (height/11)) {                                                                                         //Finishline!
+    if (stage == 3) {                                                                                    //Overgaan van LEVEL1 naar LEVEL2
+      yMarioFirevasion = height/1.08;                                                                                          //Terug naar beginpositie gaan en dan pas stage veranderen
+      stage = 5;
     }
+    else if (stage == 6) {                                                                               //Overgaan van LEVEL2 naar LEVEL3
+      yMarioFirevasion = height/1.08;                                                                                          //Terug naar beginpositie gaan en dan pas stage veranderen
+      stage = 8; 
+    }
+    else if (stage == 9) {                                                                               //Overgaan van LEVEL3 naar eindscherm
+      stage = 11;
+    }
+  }
 }
 
 void resetMarioFirevision() {
@@ -1767,9 +1763,9 @@ void scenery(){
 }
 
 void pressedOk(){
-    x = midX + width/4 - 2*dim;
-    speed= random(12, 30);
-    UDRL=int(random(0, 4));
+  x = midX + width/4 - 2*dim;
+  speed= random(12, 30);
+  UDRL=int(random(0, 4));
 } 
 
 void isAtEdge(){
@@ -1779,13 +1775,11 @@ void isAtEdge(){
     speed= random(12, 30);
     UDRL= int(random(0, 4));
     tellerMarioArrow--;
-    }
+  }
 } 
 
   
 void pressed(){
-  
-  
   switch(UDRL){
     case 0:
       colloooor = geel;
@@ -1860,7 +1854,6 @@ void pressed(){
         }
     break;
   }
-  
 }
 
 void movingRect(){
@@ -1887,10 +1880,10 @@ void time(){
 }
 
 void twolinesFill(){ 
-    fill(colloooor);
-    rect(width/2 -20,height/2 - dim,LL,LW);
-    rect(width/2 +20,height/2 - dim,LL,LW); 
-    noFill();
+  fill(colloooor);
+  rect(width/2 -20,height/2 - dim,LL,LW);
+  rect(width/2 +20,height/2 - dim,LL,LW); 
+  noFill();
 }
 
 void geluid(int geluid){
@@ -1929,20 +1922,20 @@ void winstVerlies(){
   }
 }
 void stopKnop(int cordX, int cordY, int rectw, int recth){  
- fill(fill2);
- rect(cordX,cordY,rectw,recth, 7);
- textSize(30);
- fill(255);
- text("Stop", cordX + rectw/2, cordY + 3*recth/4);
+  fill(fill2);
+  rect(cordX,cordY,rectw,recth, 7);
+  textSize(30);
+  fill(255);
+  text("Stop", cordX + rectw/2, cordY + 3*recth/4);
   if(mouseX>cordX && mouseX <cordX+rectw && mouseY>cordY && mouseY <cordY +recth && mousePressed==true){
-   exit(); 
+    exit(); 
   }
   else if(mouseX>cordX && mouseX <cordX+rectw && mouseY>cordY && mouseY <cordY + recth){
-   fill2 = 175;
- } 
- else{
-   fill2 = 131;
- }
+    fill2 = 175;
+  } 
+  else{
+    fill2 = 131;
+  }
 }
 
 public void resetMarioArrow() {

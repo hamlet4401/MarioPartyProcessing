@@ -1,60 +1,55 @@
-/*
-  TILE
-  Method: 
-  Properties:
-*/
-
-// TESTED: WORKS AT 22022018
-
-// tile one is always -4 because all the players start there and they are not added in the begin. Maybe just add them on that tile before the start of the game
-
 public class Tile {
   
   // variables
   private int place;
-  private String strAction, strCoordinates;
+  private String strAction;
   private String[] strPlayerNamesOnTile = new String[4]; // array with length of number of players in the game (max 4)
   private boolean blnPlayerOnTile = false;
   private boolean blnHasAction, blnHasGame;
   private int intNumberPlayersOnTile = 0;
   
   // constructor Tile
-  Tile(int placeInit, String actionInit, boolean hasActionInit, boolean hasGameInit, String coordinatesInit) {
+  Tile(int placeInit, String actionInit, boolean hasActionInit, boolean hasGameInit) {
     place = placeInit;
     strAction = actionInit;
     blnHasAction = hasActionInit;
     blnHasGame = hasGameInit;
-    strCoordinates = coordinatesInit;
     strPlayerNamesOnTile[0] = "";
     strPlayerNamesOnTile[1] = "";
     strPlayerNamesOnTile[2] = "";
     strPlayerNamesOnTile[3] = "";
   }
   
+  // check if the tile has an action
   public boolean hasAction() {
     return blnHasAction;
   }
   
+  // check if the tile has a game
   public boolean hasGame() {
     return blnHasGame;
   }
   
+  // add a ladder on a tile
   public void addLadder(String actionInit, boolean hasActionInit) {
     strAction = actionInit;
     blnHasAction = hasActionInit;
   }
   
+  // add a snake on a tile
   public void addSnake(String actionInit, boolean hasActionInit) {
     strAction = actionInit;
     blnHasAction = hasActionInit;
   }
   
+  // add a game on a tile
   public void addGame(String actionInit, boolean hasActionInit, boolean hasGameInit) {
     strAction = actionInit;
     blnHasAction = hasActionInit;
     blnHasGame = hasGameInit;
   }
   
+  // add end of game on a tile
   public void addEndOfGame(String actionInit, boolean hasActionInit) {
     strAction = actionInit;
     blnHasAction = hasActionInit;
@@ -74,29 +69,15 @@ public class Tile {
     return intNumberPlayersOnTile;
   }
   
+  // get the game on a tile
   public String getGame() {
     return strAction;
   }
   
+  // get the action on a tile
   public String getAction() {
     return strAction;
   }
-  
-  // method is used in Game.class
-  /* public void doAction() {
-    // steps forward or backward
-    if(strAction == "ladder") {
-      
-    } else if(strAction == "snake") {
-      
-    } else if(strAction == "end") {
-      // TODO: make a method to end the game
-      // ... .endGame();
-    } else {
-      // do nothing
-    }
-  } */
- 
   
   /* 
     Method to remove a player on a tile.

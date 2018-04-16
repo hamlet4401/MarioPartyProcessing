@@ -1,11 +1,3 @@
-/*
-  PLAYER
-  Method: 
-  Properties:
-*/
-
-// TESTED: WORKS AT 22022018
-
 public class Player {
   
   // variables
@@ -14,7 +6,6 @@ public class Player {
   private int score;
   private int placeOnBoard;
   private int scoreGames[] = new int[5]; // number of games is parameter
-  private boolean isOverEnd;
   Dice myDice;
 
   // constructor Player
@@ -23,7 +14,6 @@ public class Player {
     score = 0;
     placeOnBoard = 0;
     myDice = new Dice();
-    isOverEnd = false;
   }
   
   /*
@@ -33,6 +23,7 @@ public class Player {
     playerImage = imageInit;
   }
   
+  // get the picture of a player
   public PImage getPicture() {
     return playerImage;
   }
@@ -41,14 +32,17 @@ public class Player {
     Method to roll dice and get player and automatic changes the position of the player on the board
   */
   public void playerRollDice() {
-    int rolledEyes = myDice.rollDice();
-    //changePlaceOnBoard(rolledEyes);
+     myDice.rollDice();
   }
   
+  /*
+    Method to get the eyes of the dice
+  */
   public int getEyesRolled() {
     return myDice.getRolledEyes();
   }
   
+  // method to send player to new place
   public void playerActionOnSnakeLadder(int placeOnBoardInit) {
     placeOnBoard = placeOnBoardInit;
   }
@@ -67,35 +61,9 @@ public class Player {
     return placeOnBoard;
   }
   
-  /*
-    Method to change current place on board. It works together with the method playerRollDice().
-  */
-  /*
-  public void changePlaceOnBoard(int placeOnBoardInit) {
-    if (placeOnBoard + places == 38) {
-      // method to end game and play last game for the player who wins
-      placeOnBoard = placeOnBoard + places;
-    } else if (placeOnBoard + places > 38) {
-      int teller = 0;
-      for(int i = placeOnBoard;i<38; i++) {
-        placeOnBoard++;
-        teller++;
-      }
-      int backSteps = places - teller;
-      placeOnBoard = placeOnBoard - backSteps;
-    } else {
-      placeOnBoard = placeOnBoard + places;
-    }
-    placeOnBoard = placeOnBoard + placeOnBoardInit;
-  }
-  */
-  
+  // method to change place on the board
   public void changePlaceOnBoard(int placeOnBoardInit) { 
     placeOnBoard = placeOnBoardInit;
-  }
-  
-  public void isOverEnd(boolean value) {
-    isOverEnd = value;
   }
   
   /*

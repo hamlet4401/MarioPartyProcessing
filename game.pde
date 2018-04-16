@@ -1,10 +1,3 @@
-/*
-  GAME
-  Method: 
-  Properties:
-*/
-
-// Need G4P library
 import g4p_controls.*;
 
 public class Game {
@@ -13,9 +6,9 @@ public class Game {
   private Player[] myPlayers;
   private Tile[] myTiles;
   private Board myBoard;
-  int numberOfPlayers;
+  private int numberOfPlayers;
   private int placeOnBoard;
-  private int oldPlace, newPlace, diffrencePlace;
+  private int oldPlace, newPlace;
   
   // constructor Game
   Game() {
@@ -29,8 +22,6 @@ public class Game {
     myTiles = new Tile[39];
     // parmeter is number of players
     myBoard = new Board(numberOfPlayers);
-    // board background
-    myBoard.setBackground();
     
     // initialize each tile by making new objects of the class Tile with 39 the number of tiles on the board
     // constructor of tile: Tile(int placeInit, String actionInit, boolean hasActionInit, boolean hasGameInit, String coordinatesInit)
@@ -43,7 +34,7 @@ public class Game {
     */
     // add games to some thiles when a new game is started
     for (int i = 0; i<39;i++) {
-      myTiles[i] = new Tile(i,"no action", false, false, String.valueOf(i));
+      myTiles[i] = new Tile(i,"no action", false, false);
     }
     // add ladder on tiles
     myTiles[4].addLadder("ladder", true);
@@ -54,9 +45,7 @@ public class Game {
     myTiles[35].addLadder("snake", true);
     // add end of game to last tile
     myTiles[38].addEndOfGame("end", true);
-    // add minigames on tiles
-    
-    
+    // add minigames on tile for testing
     myTiles[1].addGame("Game3", true, true);
     myTiles[2].addGame("Game3", true, true);
     myTiles[5].addGame("Game3", true, true);
@@ -66,7 +55,7 @@ public class Game {
     myTiles[11].addGame("Game3", true, true);
     myTiles[12].addGame("Game3", true, true);
     
-    
+    // add minigames on tiles
     myTiles[16].addGame("Game2", true, true);
     myTiles[3].addGame("Game1", true, true);
     myTiles[7].addGame("Game3", true, true);
@@ -92,6 +81,7 @@ public class Game {
     }
   }
   
+  // game loop for testing
   public void automatedDelayGame(int b) {
     myTiles[myPlayers[b].getPlaceOnBoard()].removePlayerOnTile(myPlayers[b].getName());
     println("Old place " + myPlayers[b].getName()+ ": " + myPlayers[b].getPlaceOnBoard());
@@ -119,6 +109,7 @@ public class Game {
     myBoard.playersProjectedOnBoard(numberOfPlayers, myPlayers);
   }  
   
+  // game loop for the game switches player when next player is pressed
   public void gameLoop(int b) {
     // change number of players on current tile
     oldPlace = myPlayers[b].getPlaceOnBoard();
@@ -133,12 +124,11 @@ public class Game {
     newPlace = myPlayers[b].getPlaceOnBoard();
     //myTiles[myPlayers[b].getPlaceOnBoard()].addPlayerOnTile(myPlayers[b].getName());
     println("Player on tile " + myTiles[myPlayers[b].getPlaceOnBoard()].getPlaceOfTile() + " is: " + myTiles[myPlayers[b].getPlaceOnBoard()].getPlayerNamesOnTile());
-    // calculate places between
-    diffrencePlace = newPlace - oldPlace;
     // add number of players on the current tile
     myTiles[myPlayers[b].getPlaceOnBoard()].addPlayerOnTile(myPlayers[b].getName());
   }
   
+  // end of steps on the board
   public void endOfStep(int b) {
     checkActions(b);
     if(b == 0) {
@@ -154,39 +144,47 @@ public class Game {
     myBoard.playersProjectedOnBoard(numberOfPlayers, myPlayers);
   }
   
+  // project players on the board
   public void projectPlayerBoard() {
     myBoard.playersProjectedOnBoard(numberOfPlayers, myPlayers);
   }
   
+  // get eyes rolled from dice
   public int getEyesRolled(int b) {
     return myPlayers[b].getEyesRolled();
   }
   
+  // set steps on the board
   public void setSteps(int b) {
     myPlayers[b].changePlaceOnBoard(1);
     myBoard.movePlayerOnBoard(b, myPlayers[b].getPlaceOnBoard());  
     myBoard.playersProjectedOnBoard(numberOfPlayers, myPlayers);
   }
   
+  // get place on the board
   public int getPlaceOnBoard(int b) {
     return myPlayers[b].getPlaceOnBoard();
   }
   
+  // get score of playerX
   public int getScore(int b) {
     return myPlayers[b].getScore();
   }
   
+  // add score to playerX
   public void addScore(int b, int value) {
     println("Game.class addScore method value: " + value + "playerNumber :" + b);
     myPlayers[b].addScore(value);
   }
   
+  // change place on the board
   public void changePlaceOnBoard(int value, int b) {
     myPlayers[b].changePlaceOnBoard(value);
     myBoard.movePlayerOnBoard(b, myPlayers[b].getPlaceOnBoard());  
     myBoard.playersProjectedOnBoard(numberOfPlayers, myPlayers);
   }
   
+  // check if there is an action on a tile
   public void checkActions(int b) {
     // check the actions on a tile (game, snake, action or end game)
     if(myTiles[myPlayers[b].getPlaceOnBoard()].hasAction()) {
@@ -226,61 +224,3 @@ public class Game {
     }
   }
 }
-
-/* UNUSED BUT USEFULL CODE */
-
-// TEST om alle tegels te testen of ze juist geplaatst zijn
-/*
-Player[] myTestPlayers;
-myTestPlayers = new Player[39];
-for (int i = 0;i<39;i++) {
-  myTestPlayers[i] = new Player("player 1", 18);
-  myTestPlayers[i].setPicture(myBoard.setPictureInit(1));
-  myTestPlayers[i].changePlaceOnBoard(i);
-  myTiles[myTestPlayers[i].getPlaceOnBoard()].addPlayerOnTile(myTestPlayers[i].getName());
-  myBoard.movePlayerOnBoard(myTestPlayers[i].getPicture(), myTestPlayers[i].getPlaceOnBoard());
-}
-*/
-// END TEST
-
-// TEST om alle tegels te testen of ze juist geplaatst zijn
-/*
-public void automatedTestGame() {
-  // an automated game to check if the program is right
-  
-  for (int i = 0; i<12; i++) {
-    for (int j=0; j < numberOfPlayers; j++) {
-      myTiles[myPlayers[j].getPlaceOnBoard()].removePlayerOnTile(myPlayers[j].getName());
-      println("Old place " + myPlayers[j].getName()+ ": " + myPlayers[j].getPlaceOnBoard());
-      myPlayers[j].playerRollDice();
-      println("New place " + myPlayers[j].getName()+ ": " + myPlayers[j].getPlaceOnBoard());
-      myTiles[myPlayers[j].getPlaceOnBoard()].addPlayerOnTile(myPlayers[j].getName());
-      println("Player on tile " + myTiles[myPlayers[j].getPlaceOnBoard()].getPlaceOfTile() + " is: " + myTiles[myPlayers[j].getPlaceOnBoard()].getPlayerNamesOnTile());
-      for(int k = 0; k<18;k++) {
-        println(myTiles[k].getNumberPlayersOnTile());
-        println(myTiles[k].getPlayerNamesOnTile());
-        println(myTiles[k].isPlayerOnTile());
-      }
-    }
-  }
-  
-  for(int q = 0; q<numberOfPlayers;q++) {
-    myBoard.movePlayerOnBoard(q, myPlayers[q].getPlaceOnBoard());
-    println("place on board");
-    println(myPlayers[q].getPlaceOnBoard());
-  }
-  println("Endpositions");
-  for(int i = 0; i<39;i++) {
-    println(myTiles[i].getNumberPlayersOnTile());
-    println(myTiles[i].getPlayerNamesOnTile());
-    println(myTiles[i].isPlayerOnTile());
-  }
-}
-*/
-// END TEST
-
-// TEST om alle tegels te testen of ze juist geplaatst zijn
-/*
-
-*/
-// END TEST
