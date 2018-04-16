@@ -57,14 +57,14 @@ public class Game {
     // add minigames on tiles
     
     
-    myTiles[1].addGame("Game1", true, true);
-    myTiles[2].addGame("Game1", true, true);
-    myTiles[5].addGame("Game2", true, true);
-    myTiles[6].addGame("Game2", true, true);
-    myTiles[8].addGame("Game2", true, true);
-    myTiles[9].addGame("Game2", true, true);
-    myTiles[11].addGame("Game2", true, true);
-    myTiles[12].addGame("Game2", true, true);
+    myTiles[1].addGame("Game3", true, true);
+    myTiles[2].addGame("Game3", true, true);
+    myTiles[5].addGame("Game3", true, true);
+    myTiles[6].addGame("Game3", true, true);
+    myTiles[8].addGame("Game3", true, true);
+    myTiles[9].addGame("Game3", true, true);
+    myTiles[11].addGame("Game3", true, true);
+    myTiles[12].addGame("Game3", true, true);
     
     
     myTiles[16].addGame("Game2", true, true);

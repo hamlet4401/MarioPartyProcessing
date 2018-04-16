@@ -47,6 +47,7 @@ boolean mainGame, stepGame, endStepGame, isSettingStepsTo38, onceFor38;
   game Flappy Mario
 */
 boolean flappyMarioStay5Seconds, marioFirevisionStay5Seconds, onlyOnceAfterMarioFirevision, makeGameOverScreenMarioFirevision, makeGameOverScreenFlappyMario, removeGameboardInterface, onlyOnceAfterFlappyMario;
+boolean marioArrowStay5Seconds, onlyOnceAfterMarioArrow, makeGameOverScreenMarioArrow;
 int gameScreen = 0;
 //geluid bij doodgaan
 import processing.sound.*;
@@ -119,6 +120,46 @@ float speed = 7;  //snelheid van beweging
   int livesMarioFirevasion = 3;
 //Vraag: Is Hero dood of levend?
   boolean life = true; 
+  
+/*
+  Variables mario arrow
+*/
+boolean runMarioArrow;
+import processing.sound.*; // library's
+SoundFile file1;
+SoundFile file2;
+SoundFile file3;
+float x, y;
+float speedMarioArrow= 12;
+int dim = 22;
+int LL = 2;
+int LW = 40;
+int UDRL = 0;
+int time;
+int rect1Width = 700;
+int rect1Height = 400;
+int rectWidth;
+int rectHeight;
+int midX = width/2;
+int midY = height/2;
+private int tellerMarioArrow;
+private int tijd;
+PImage imgUP;
+PImage imgDown;
+PImage imgLeft;
+PImage imgRight;
+PImage imgGameOver;
+PImage imgGameWin;
+PImage Spel_Background;
+color geel = color(255, 204, 0); 
+color lichtBlauw = color(50, 55, 100);
+color donkerGroen = color(180, 50, 50);
+color rood = color(255,200,200);
+color transparant = color(255,0,0,128);
+color white = color(255);
+color colloooor;
+color fill;
+color fill2;
 
   
 void setup() { 
@@ -186,6 +227,29 @@ void setup() {
   onlyOnceAfterMarioFirevision = false;
   makeGameOverScreenMarioFirevision = true;
   //startingTime = millis( ); //Tijd onthouden vanaf het begin van het spel
+  
+  /*
+    Setup mario arrow
+  */
+  //size(1600, 800);
+  //textAlign(CENTER);
+  noStroke();
+  time=millis();
+  rectWidth = 5*dim;
+  rectHeight = 2*dim;
+  x = midX + width/4 - 2*dim;
+  fill = transparant;
+  imgUP = loadImage("pijl_omhoog.jpg");
+  imgDown = loadImage("pijl_Onder.jpg");
+  imgLeft = loadImage("pijl_links.jpg");
+  imgRight = loadImage("pijl_Rechts.jpg");
+  imgGameOver = loadImage("Gameover.jpg");
+  imgGameWin = loadImage("Mariovlag.jpg");
+  Spel_Background = loadImage("Spel_Background.png");
+  marioArrowStay5Seconds = false;
+  onlyOnceAfterMarioArrow = false;
+  makeGameOverScreenMarioArrow = true;
+  runMarioArrow = true;
 }
 
 public void draw() {
@@ -202,6 +266,12 @@ public void draw() {
       showGameboardUI();
       myGame.projectPlayerBoard();
       onlyOnceAfterFlappyMario = false;
+      image(gameboardBackground, 0, 0);
+    }
+    while(onlyOnceAfterMarioArrow) {
+      showGameboardUI();
+      myGame.projectPlayerBoard();
+      onlyOnceAfterMarioArrow = false;
       image(gameboardBackground, 0, 0);
     }
     while(onlyOnceAfterMarioFirevision) {
@@ -303,7 +373,7 @@ public void draw() {
     text("won the game with a score of" , width/2, height/2);
     textSize(130);
     text(myGame.getScore(playerNumber), width/2, height/2 + 150);
-  } else if(screenBackground == screenMiniGame1) {
+  } else if(screenBackground == screenMiniGame1) {    // flappy mario
     image(miniGame1Background, 0, 0);
     // TODO: ADD CODE FOR MINI GAME. IF THE GAME ENDS, SET THE VAR screenBackground BACK TO THE GAMEBOARD VALUE!!!
     if (gameScreen == 0) { 
@@ -340,7 +410,7 @@ public void draw() {
       else if (gameScreen == 3){
       regels(); //scherm met regels
     }
-  } else if(screenBackground == screenMiniGame2) {
+  } else if(screenBackground == screenMiniGame2) {  // mario firevision
     //image(miniGame2Background, 0, 0);
     // TODO: ADD CODE FOR MINI GAME. IF THE GAME ENDS, SET THE VAR screenBackground BACK TO THE GAMEBOARD VALUE!!!
     if(stage == 1) {          //startscherm
@@ -584,9 +654,92 @@ public void draw() {
        stage = 9;
      }
    }
-  } else if(screenBackground == screenMiniGame3) {
-    image(miniGame3Background, 0, 0);
+  } else if(screenBackground == screenMiniGame3) {  // mario arrow
+    //image(miniGame3Background, 0, 0);
     // TODO: ADD CODE FOR MINI GAME. IF THE GAME ENDS, SET THE VAR screenBackground BACK TO THE GAMEBOARD VALUE!!!
+    if(removeGameboardInterface) {
+        removeGameboardUI();
+        removeGameboardInterface = false;
+    }
+    textAlign(CENTER);
+    if(runMarioArrow) {
+      
+      scenery();
+      scoreMarioArrow();
+      time();
+      pressed();
+      isAtEdge();
+      movingRect();
+      println("runMarioArrow");
+    }
+    if( tijd == 0 && tellerMarioArrow > 20){       //winst
+      if(marioArrowStay5Seconds) {
+        // add button for next step
+        // change background
+        delay(5000);
+        image(gameboardBackground, 0, 0, width, height);
+        // change state
+        screenBackground = screenGameboard;
+        marioArrowStay5Seconds = false;
+        removeGameboardInterface = true;
+        onlyOnceAfterMarioArrow = true;
+        makeGameOverScreenMarioArrow = false;
+        println("marioArrow stay 5 seconds");
+        runMarioArrow = true;
+        resetMarioArrow();
+      }
+      if(makeGameOverScreenMarioArrow) {
+        x = 0;
+        y = 0;
+        fill = white;
+        image(imgGameWin, midX + width/4 - dim , midY - height/4 - dim, imgGameWin.width/8 + 3*dim, imgGameWin.height/6 - 2*dim);
+        textSize(80);
+        text("You win",width/2, -height/4 + 4*dim);
+        textSize(60);
+        text("score: " + tellerMarioArrow, width/2, -height/4 + 8*dim);
+        marioArrowStay5Seconds = true;
+        // add score to player
+        //myGame.addScore(playerNumber, scoreFlappyMario); // maybe add more points
+        // replaced to method just before the score resets to 0
+        println("gameOverScreen(); mario arrow");
+        runMarioArrow = false;
+      }
+      makeGameOverScreenMarioArrow = true;
+    } else if(tijd == 0 && tellerMarioArrow < 20){        //verlies
+      // stay for 5 seconds
+      if(marioArrowStay5Seconds) {
+        // add button for next step
+        // change background
+        delay(5000);
+        image(gameboardBackground, 0, 0, width, height);
+        // change state
+        screenBackground = screenGameboard;
+        marioArrowStay5Seconds = false;
+        removeGameboardInterface = true;
+        onlyOnceAfterMarioArrow = true;
+        makeGameOverScreenMarioArrow = false;
+        println("marioArrow stay 5 seconds");
+        runMarioArrow = true;
+        resetMarioArrow();
+      }
+      if(makeGameOverScreenMarioArrow) {
+        x = -2*dim;
+        y = 0;
+        //text("Game over", width/2, height/4);
+        fill = rood;
+        image(imgGameOver, midX + width/4 - dim/2 , midY - height/4 - 3*dim, width/2, height/2);
+        fill(255);
+        marioArrowStay5Seconds = true;
+        // add score to player
+        //myGame.addScore(playerNumber, scoreFlappyMario); // maybe add more points
+        // replaced to method just before the score resets to 0
+        println("gameOverScreen(); mario arrow");
+        runMarioArrow =false;
+      }
+      makeGameOverScreenMarioArrow = true;
+    }
+    //winstVerlies();
+    
   } else if(screenBackground == screenMiniGame4) {
     image(miniGame4Background, 0, 0);
     // TODO: ADD CODE FOR MINI GAME. IF THE GAME ENDS, SET THE VAR screenBackground BACK TO THE GAMEBOARD VALUE!!!
@@ -1593,4 +1746,221 @@ void resetMarioFirevision() {
   livesMarioFirevasion = 3;
   //Vraag: Is Hero dood of levend?
   life = true; 
+}
+
+/*
+  methods mario arrow
+*/
+void scenery(){
+  image(Spel_Background, 0, 0, width, height );
+  stroke(255, 0, 0);
+  strokeWeight(10);
+  fill(fill);
+  rect(midX + width/4 - 2*dim , midY + height/4 - 3*dim, width/2, height/2, 7);
+  noStroke();
+  noFill();
+  fill(255);
+  rect(width/2 -20,height/2 - dim,LL,LW);
+  rect(width/2 +20,height/2 - dim,LL,LW);
+  noFill();
+  stopKnop(width -7 *dim,3*dim-20, rectWidth ,rectHeight );
+}
+
+void pressedOk(){
+    x = midX + width/4 - 2*dim;
+    speed= random(12, 30);
+    UDRL=int(random(0, 4));
+} 
+
+void isAtEdge(){
+  if(x > midX + width/4 -3*dim + width/2){
+    geluid(3);
+    x = midX + width/4 - dim;
+    speed= random(12, 30);
+    UDRL= int(random(0, 4));
+    tellerMarioArrow--;
+    }
+} 
+
+  
+void pressed(){
+  
+  
+  switch(UDRL){
+    case 0:
+      colloooor = geel;
+      image( imgUP, (width/2) -imgUP.width/12, midY + 400, imgUP.width/6, imgUP.height/6);
+        if (keyPressed == true ){
+          if (keyCode == UP && x >= width/2 -20 && x<= width/2 +20){
+            tellerMarioArrow++;
+            twolinesFill();
+            geluid(1);
+            pressedOk();     
+          }
+          if (keyCode != UP && x >= width/2 -20 && x<= width/2 +20){
+            tellerMarioArrow--;
+            twolinesFill();
+            geluid(2);
+            pressedOk();
+          }
+        }
+    break;
+    case 1:
+      colloooor = lichtBlauw;
+      image( imgDown, (width/2) -imgDown.width/12, midY + 400, imgDown.width/6, imgDown.height/6);
+          if (keyPressed == true ){
+            if (keyCode == DOWN && x >= width/2 -20 && x<= width/2 +20){
+              tellerMarioArrow++;
+              twolinesFill();
+              geluid(1);
+              pressedOk();
+            } 
+            if (keyCode != DOWN && x >= width/2 -20 && x<= width/2 +20){
+            tellerMarioArrow--;
+            twolinesFill();
+            geluid(2);
+            pressedOk();
+          }
+          }
+    break;
+    case 2:
+      colloooor = donkerGroen;
+      image( imgRight, (width/2) -imgRight.width/12, midY + 400, imgRight.width/6, imgRight.height/6);
+         if (keyPressed == true ){
+           if (keyCode == RIGHT && x >= width/2 -20 && x<= width/2 +20){
+             tellerMarioArrow++;
+             twolinesFill();
+             geluid(1);
+             pressedOk();
+           }
+           if (keyCode != RIGHT && x >= width/2 -20 && x<= width/2 +20){
+            tellerMarioArrow--;
+            twolinesFill();
+            geluid(2);
+            pressedOk();
+          }
+         }
+    break;
+    case 3:
+      colloooor = rood;
+      image( imgLeft, (width/2) -imgLeft.width/12, midY + 400, imgLeft.width/6, imgLeft.height/6);
+        if (keyPressed == true ){
+          if (keyCode == LEFT && x >= width/2 -20 && x<= width/2 +20){
+            tellerMarioArrow++;
+            twolinesFill();
+            geluid(1);
+            pressedOk();
+          }
+          if (keyCode != LEFT && x >= width/2 -20 && x<= width/2 +20){
+            tellerMarioArrow--;
+            twolinesFill();
+            geluid(2);
+            pressedOk();
+          }
+        }
+    break;
+  }
+  
+}
+
+void movingRect(){
+  x = x + speed;
+  translate(x, height/2);
+  fill(colloooor);
+  rect(-dim/2, -dim/2, dim, dim); 
+  noFill();
+}
+
+void scoreMarioArrow(){
+  textSize(65);
+  fill(255);
+  text(tellerMarioArrow, width/2, midY + height/4 + 3*dim);
+  noFill();
+}
+void time(){
+  textSize(50);
+  tijd = ( 60 -(millis()- time)/1000);
+  if(tijd <0){
+    tijd =0;
+  }
+  text( "tijd: " + tijd, 5*dim,3*dim-20);
+}
+
+void twolinesFill(){ 
+    fill(colloooor);
+    rect(width/2 -20,height/2 - dim,LL,LW);
+    rect(width/2 +20,height/2 - dim,LL,LW); 
+    noFill();
+}
+
+void geluid(int geluid){
+  if(geluid == 1){
+   file1 = new SoundFile(this, "marioCoin.mp3");
+   file1.play();
+   }  
+  if(geluid == 2){
+   file2 = new SoundFile(this, "fail.wav");
+   file2.play();
+   } 
+  if(geluid == 3){
+   file3 = new SoundFile(this, "edge.wav");
+   file3.play();
+   }
+}
+
+void winstVerlies(){
+  if( tijd == 0 && tellerMarioArrow > 20){       //winst
+    x = 0;
+    y = 0;
+    fill = white;
+    image(imgGameWin, midX + width/4 - dim , midY - height/4 - dim, imgGameWin.width/8 + 3*dim, imgGameWin.height/6 - 2*dim);
+    textSize(80);
+    text("You win",width/2, -height/4 + 4*dim);
+    textSize(60);
+    text("score: " + tellerMarioArrow, width/2, -height/4 + 8*dim);
+  }
+  if(tijd == 0 && tellerMarioArrow < 20){        //verlies
+    x = -2*dim;
+    y = 0;
+    //text("Game over", width/2, height/4);
+    fill = rood;
+    image(imgGameOver, midX + width/4 - dim/2 , midY - height/4 - 3*dim, width/2, height/2);
+    fill(255);
+  }
+}
+void stopKnop(int cordX, int cordY, int rectw, int recth){  
+ fill(fill2);
+ rect(cordX,cordY,rectw,recth, 7);
+ textSize(30);
+ fill(255);
+ text("Stop", cordX + rectw/2, cordY + 3*recth/4);
+  if(mouseX>cordX && mouseX <cordX+rectw && mouseY>cordY && mouseY <cordY +recth && mousePressed==true){
+   exit(); 
+  }
+  else if(mouseX>cordX && mouseX <cordX+rectw && mouseY>cordY && mouseY <cordY + recth){
+   fill2 = 175;
+ } 
+ else{
+   fill2 = 131;
+ }
+}
+
+public void resetMarioArrow() {
+  rectWidth = 5*dim;
+  rectHeight = 2*dim;
+  x = midX + width/4 - 2*dim;
+  fill = transparant;
+  imgUP = loadImage("pijl_omhoog.jpg");
+  imgDown = loadImage("pijl_Onder.jpg");
+  imgLeft = loadImage("pijl_links.jpg");
+  imgRight = loadImage("pijl_Rechts.jpg");
+  imgGameOver = loadImage("Gameover.jpg");
+  imgGameWin = loadImage("Mariovlag.jpg");
+  Spel_Background = loadImage("Spel_Background.png");
+  speedMarioArrow= 12;
+  dim = 22;
+  LL = 2;
+  LW = 40;
+  UDRL = 0;
+  tellerMarioArrow = 0;
 }

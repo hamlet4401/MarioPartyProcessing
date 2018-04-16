@@ -177,6 +177,8 @@ public class Tile {
         break;
       case "Game3": 
         //screenBackground = 4; // code for minigame 3
+        screenBackground = screenMiniGame3;
+        time=millis();
         // open game 3
         break;
       case "Game4": 
