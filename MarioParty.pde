@@ -682,14 +682,15 @@ public void draw() {
         resetMarioArrow();
       }
       if(makeGameOverScreenMarioArrow) {
-        x = 0;
-        y = 0;
-        fill = white;
-        image(imgGameWin, midX + width/4 - dim , midY - height/4 - dim, imgGameWin.width/8 + 3*dim, imgGameWin.height/6 - 2*dim);
-        textSize(80);
-        text("You win",width/2, -height/4 + 4*dim);
-        textSize(60);
-        text("score: " + tellerMarioArrow, width/2, -height/4 + 8*dim);
+        background(44, 62, 80);
+        textAlign(CENTER);    // after this, set it back to left!!!
+        fill(255, 255, 255);
+        textSize(130);
+        text("You won!", width/2, height/2 - 85);
+        textSize(65);
+        text("with a score of" , width/2, height/2);
+        textSize(130);
+        text(tellerMarioArrow, width/2, height/2 + 150);
         marioArrowStay5Seconds = true;
         // add score to player
         //myGame.addScore(playerNumber, scoreFlappyMario);
@@ -716,11 +717,11 @@ public void draw() {
         resetMarioArrow();
       }
       if(makeGameOverScreenMarioArrow) {
-        x = -2*dim;
-        y = 0;
-        fill = rood;
-        image(imgGameOver, midX + width/4 - dim/2 , midY - height/4 - 3*dim, width/2, height/2);
-        fill(255);
+        background(44, 62, 80);
+        textAlign(CENTER);    // after this, set it back to left!!!
+        fill(255, 255, 255);
+        textSize(130);
+        text("You lost!" , 1600/2, 800/2);
         marioArrowStay5Seconds = true;
         // add score to player
         //myGame.addScore(playerNumber, scoreFlappyMario);
@@ -1759,7 +1760,6 @@ void scenery(){
   rect(width/2 -20,height/2 - dim,LL,LW);
   rect(width/2 +20,height/2 - dim,LL,LW);
   noFill();
-  stopKnop(width -7 *dim,3*dim-20, rectWidth ,rectHeight );
 }
 
 void pressedOk(){
@@ -1919,22 +1919,6 @@ void winstVerlies(){
     fill = rood;
     image(imgGameOver, midX + width/4 - dim/2 , midY - height/4 - 3*dim, width/2, height/2);
     fill(255);
-  }
-}
-void stopKnop(int cordX, int cordY, int rectw, int recth){  
-  fill(fill2);
-  rect(cordX,cordY,rectw,recth, 7);
-  textSize(30);
-  fill(255);
-  text("Stop", cordX + rectw/2, cordY + 3*recth/4);
-  if(mouseX>cordX && mouseX <cordX+rectw && mouseY>cordY && mouseY <cordY +recth && mousePressed==true){
-    exit(); 
-  }
-  else if(mouseX>cordX && mouseX <cordX+rectw && mouseY>cordY && mouseY <cordY + recth){
-    fill2 = 175;
-  } 
-  else{
-    fill2 = 131;
   }
 }
 
