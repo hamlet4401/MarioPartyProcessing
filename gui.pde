@@ -110,11 +110,11 @@ public void btnStartspel_event(GButton source, GEvent event) { //_CODE_:btnStart
   if(numberOfPlayers >= 2) {
     lblSpeler1 = new GLabel(this, 1110, 240, 160, 20);
     lblSpeler1.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
-    lblSpeler1.setText(playerNames[0]);
+    lblSpeler1.setText(playerNames[0]  + " (rood)");
     lblSpeler1.setOpaque(false);
     lblSpeler2 = new GLabel(this, 1110, 280, 160, 20);
     lblSpeler2.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
-    lblSpeler2.setText(playerNames[1]);
+    lblSpeler2.setText(playerNames[1]  + " (groen)");
     lblSpeler2.setOpaque(false);
     
     
@@ -154,7 +154,7 @@ public void btnStartspel_event(GButton source, GEvent event) { //_CODE_:btnStart
   if(numberOfPlayers >= 3) {
     lblSpeler3 = new GLabel(this, 1110, 320, 160, 20);
     lblSpeler3.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
-    lblSpeler3.setText(playerNames[2]);
+    lblSpeler3.setText(playerNames[2]  + " (blauw)");
     lblSpeler3.setOpaque(false);
     lblScoreSpeler3 = new GLabel(this, 1300, 320, 80, 20);
     lblScoreSpeler3.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
@@ -168,7 +168,7 @@ public void btnStartspel_event(GButton source, GEvent event) { //_CODE_:btnStart
   if(numberOfPlayers == 4) {
     lblSpeler4 = new GLabel(this, 1110, 360, 160, 20);
     lblSpeler4.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
-    lblSpeler4.setText(playerNames[3]);
+    lblSpeler4.setText(playerNames[3]  + " (geel)");
     lblSpeler4.setOpaque(false);
     lblScoreSpeler4 = new GLabel(this, 1300, 360, 80, 20);
     lblScoreSpeler4.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
@@ -204,6 +204,7 @@ public void btnStartspel_event(GButton source, GEvent event) { //_CODE_:btnStart
   lblAantalOgen.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   lblAantalOgen.setText("0");
   lblAantalOgen.setOpaque(false);
+  lblAantalOgen.setFont(new Font("Monospaced", Font.PLAIN, 25));
 } //_CODE_:btnStartSpel:589420:
 
 public void button1_click1(GButton source, GEvent event) { //_CODE_:btnOpenHandleiding:433001:
@@ -465,10 +466,11 @@ public void createGUI(){
   lblGedobbeldeOgen.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   lblGedobbeldeOgen.setText("Gedobbelde ogen:");
   lblGedobbeldeOgen.setOpaque(false);
-  lblAantalOgen = new GLabel(this, 1300, 470, 160, 20);
+  lblAantalOgen = new GLabel(this, 1301, 470, 160, 20);
   lblAantalOgen.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   lblAantalOgen.setText("0");
   lblAantalOgen.setOpaque(false);
+  lblAantalOgen.setFont(new Font("Monospaced", Font.PLAIN, 25));
   btnVolgendeZet = new GButton(this, 1210, 630, 80, 30);
   btnVolgendeZet.setText("Volgende zet");
   btnVolgendeZet.addEventHandler(this, "button1_click3");

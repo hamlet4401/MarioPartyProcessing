@@ -171,6 +171,8 @@ public class Tile {
         break;
       case "Game2": 
         //screenBackground = 3; // code for minigame 2
+        screenBackground = 3;
+        stage = 1;
         // open game 2
         break;
       case "Game3": 
