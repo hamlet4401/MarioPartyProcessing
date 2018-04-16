@@ -543,6 +543,8 @@ public void draw() {
           onlyOnceAfterMarioFirevision = true;
           makeGameOverScreenMarioFirevision = false;
           stage = 1;
+          // add score to player
+          myGame.addScore(playerNumber, 25);
           // reset values for the next time
           resetMarioFirevision();
         }
@@ -570,6 +572,8 @@ public void draw() {
           onlyOnceAfterMarioFirevision = true;
           makeGameOverScreenMarioFirevision = false;
           stage = 1;
+          // add score to player
+          myGame.addScore(playerNumber, 0);
           // reset values for the next time
           resetMarioFirevision();
         }
@@ -682,18 +686,20 @@ public void draw() {
         resetMarioArrow();
       }
       if(makeGameOverScreenMarioArrow) {
+        scenery();
         background(44, 62, 80);
         textAlign(CENTER);    // after this, set it back to left!!!
         fill(255, 255, 255);
         textSize(130);
-        text("You won!", width/2, height/2 - 85);
+        text("You won!",  50, 50 - 85);
         textSize(65);
-        text("with a score of" , width/2, height/2);
+        text("with a score of" , 50, 50);
         textSize(130);
-        text(tellerMarioArrow, width/2, height/2 + 150);
+        text(tellerMarioArrow,  50, 50 + 150);
+        translate(0,0);
         marioArrowStay5Seconds = true;
         // add score to player
-        //myGame.addScore(playerNumber, scoreFlappyMario);
+        myGame.addScore(playerNumber, tellerMarioArrow);
         // game is stopped
         runMarioArrow = false;
       }
@@ -718,13 +724,14 @@ public void draw() {
       }
       if(makeGameOverScreenMarioArrow) {
         background(44, 62, 80);
-        textAlign(CENTER);    // after this, set it back to left!!!
+        //textAlign(CENTER);    // after this, set it back to left!!!
         fill(255, 255, 255);
         textSize(130);
-        text("You lost!" , 1600/2, 800/2);
+        text("You lost!" , 50, 50);
+        noFill();
         marioArrowStay5Seconds = true;
         // add score to player
-        //myGame.addScore(playerNumber, scoreFlappyMario);
+        myGame.addScore(playerNumber, tellerMarioArrow);
         // game is stopped
         runMarioArrow =false;
       }

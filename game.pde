@@ -54,6 +54,12 @@ public class Game {
     myTiles[9].addGame("Game3", true, true);
     myTiles[11].addGame("Game3", true, true);
     myTiles[12].addGame("Game3", true, true);
+    myTiles[13].addGame("Game2", true, true);
+    myTiles[14].addGame("Game2", true, true);
+    myTiles[15].addGame("Game1", true, true);
+    myTiles[21].addGame("Game1", true, true);
+    myTiles[22].addGame("Game1", true, true);
+
     
     // add minigames on tiles
     myTiles[16].addGame("Game2", true, true);
