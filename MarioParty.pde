@@ -1901,27 +1901,6 @@ void geluid(int geluid){
    }
 }
 
-void winstVerlies(){
-  if( tijd == 0 && tellerMarioArrow > 20){       //winst
-    x = 0;
-    y = 0;
-    fill = white;
-    image(imgGameWin, midX + width/4 - dim , midY - height/4 - dim, imgGameWin.width/8 + 3*dim, imgGameWin.height/6 - 2*dim);
-    textSize(80);
-    text("You win",width/2, -height/4 + 4*dim);
-    textSize(60);
-    text("score: " + tellerMarioArrow, width/2, -height/4 + 8*dim);
-  }
-  if(tijd == 0 && tellerMarioArrow < 20){        //verlies
-    x = -2*dim;
-    y = 0;
-    //text("Game over", width/2, height/4);
-    fill = rood;
-    image(imgGameOver, midX + width/4 - dim/2 , midY - height/4 - 3*dim, width/2, height/2);
-    fill(255);
-  }
-}
-
 public void resetMarioArrow() {
   rectWidth = 5*dim;
   rectHeight = 2*dim;
