@@ -176,7 +176,7 @@ public void btnStartspel_event(GButton source, GEvent event) { //_CODE_:btnStart
     lblScoreSpeler4.setOpaque(false);
     lblPlaatsSpeler4 = new GLabel(this, 1410, 360, 80, 20);
     lblPlaatsSpeler4.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
-    lblPlaatsSpeler4.setText("Startl");
+    lblPlaatsSpeler4.setText("Start");
     lblPlaatsSpeler4.setOpaque(false);
   }
   btnDobbelen = new GButton(this, 1110, 630, 80, 30);
@@ -443,7 +443,7 @@ public void createGUI(){
   lblPlaatsSpeler3.setOpaque(false);
   lblPlaatsSpeler4 = new GLabel(this, 1410, 360, 80, 20);
   lblPlaatsSpeler4.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
-  lblPlaatsSpeler4.setText("Startl");
+  lblPlaatsSpeler4.setText("Start");
   lblPlaatsSpeler4.setOpaque(false);
   btnDobbelen = new GButton(this, 1110, 630, 80, 30);
   btnDobbelen.setText("Dobbelen");

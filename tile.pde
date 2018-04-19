@@ -165,6 +165,17 @@ public class Tile {
       case "Game4": 
         //screenBackground = 5; // code for minigame 4
         // open game 4
+        screenBackground = screenMiniGame4;
+        break;
+      case "Game5": 
+        //screenBackground = 5; // code for minigame 4
+        // open game 5
+        screenBackground = screenMiniGame5;
+        break;
+      case "Game6": 
+        //screenBackground = 5; // code for minigame 4
+        // open game 6
+        //screenBackground = screenMiniGame6;
         break;
       default:  
         // open no game, game is not here

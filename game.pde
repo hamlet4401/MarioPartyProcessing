@@ -44,36 +44,54 @@ public class Game {
     myTiles[17].addLadder("snake", true);
     myTiles[35].addLadder("snake", true);
     // add end of game to last tile
-    myTiles[38].addEndOfGame("end", true);
-    // add minigames on tile for testing
-    myTiles[1].addGame("Game3", true, true);
-    myTiles[2].addGame("Game3", true, true);
-    myTiles[5].addGame("Game3", true, true);
-    myTiles[6].addGame("Game3", true, true);
-    myTiles[8].addGame("Game3", true, true);
-    myTiles[9].addGame("Game3", true, true);
-    myTiles[11].addGame("Game3", true, true);
-    myTiles[12].addGame("Game3", true, true);
-    myTiles[13].addGame("Game2", true, true);
-    myTiles[14].addGame("Game2", true, true);
-    myTiles[15].addGame("Game1", true, true);
-    myTiles[21].addGame("Game1", true, true);
-    myTiles[22].addGame("Game1", true, true);
+    myTiles[38].addEndOfGame("end", true);  // bowser game
 
+    //myTiles[1].addGame("Game3", true, true);
+    //myTiles[2].addGame("Game3", true, true);
+    //myTiles[3].addGame("Game3", true, true);
+    //myTiles[4].addGame("", true, true);
+    //myTiles[5].addGame("Game3", true, true);
+    //myTiles[6].addGame("Game3", true, true);
     
     // add minigames on tiles
-    myTiles[16].addGame("Game2", true, true);
+ 
+    myTiles[1].addGame("Game4", true, true);
+    myTiles[2].addGame("Game5", true, true);
     myTiles[3].addGame("Game1", true, true);
-    myTiles[7].addGame("Game3", true, true);
-    myTiles[10].addGame("Game2", true, true);
-    myTiles[15].addGame("Game4", true, true);
-    myTiles[16].addGame("Game1", true, true);
-    myTiles[20].addGame("Game3", true, true);
-    myTiles[23].addGame("Game2", true, true);
-    myTiles[29].addGame("Game4", true, true);
-    myTiles[32].addGame("Game4", true, true);
-    myTiles[33].addGame("Game1", true, true);
-    myTiles[36].addGame("Game3", true, true);
+    ///myTiles[4].addGame("", true, true);
+    myTiles[5].addGame("", true, true);
+    myTiles[6].addGame("Game2", true, true);
+    myTiles[7].addGame("", true, true);
+    myTiles[8].addGame("Game3", true, true);
+    myTiles[9].addGame("", true, true);
+    myTiles[10].addGame("Game4", true, true);
+    myTiles[11].addGame("Game5", true, true);
+    myTiles[12].addGame("Game3", true, true);
+    myTiles[13].addGame("Game2", true, true);
+    myTiles[14].addGame("", true, true);
+    myTiles[15].addGame("Game1", true, true);
+    myTiles[16].addGame("", true, true);
+    //myTiles[17].addGame("", true, true);
+    myTiles[18].addGame("Game3", true, true);
+    //myTiles[19].addGame("", true, true);
+    myTiles[20].addGame("", true, true);
+    myTiles[21].addGame("Game4", true, true);
+    myTiles[22].addGame("Game1", true, true);
+    myTiles[23].addGame("Game5", true, true);
+    myTiles[24].addGame("Game2", true, true);
+    //myTiles[25].addGame("", true, true);
+    myTiles[26].addGame("", true, true);
+    myTiles[27].addGame("Game2", true, true);
+    myTiles[28].addGame("", true, true);
+    myTiles[29].addGame("Game5", true, true);
+    myTiles[30].addGame("", true, true);
+    myTiles[31].addGame("Game3", true, true);
+    myTiles[32].addGame("Game1", true, true);
+    myTiles[33].addGame("", true, true);
+    myTiles[34].addGame("Game4", true, true);
+    //myTiles[35].addGame("", true, true);
+    myTiles[36].addGame("", true, true);
+    myTiles[37].addGame("", true, true);
     // first ask how many players, use this int to get started with the init
     // set initial number of players on the first tile
     myTiles[0].setNumberOfPlayersGameInit(numberOfPlayers);

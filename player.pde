@@ -5,7 +5,7 @@ public class Player {
   private PImage playerImage;
   private int score;
   private int placeOnBoard;
-  private int scoreGames[] = new int[5]; // number of games is parameter
+  private int scoreGames[] = new int[6]; // number of games is parameter
   Dice myDice;
 
   // constructor Player
@@ -81,6 +81,8 @@ public class Player {
                      break;
       case "Game5": scoreGames[4] = score;
                      break;
+      case "Game6": scoreGames[4] = score;
+                     break;
       default:       // no score
                      break;
     }
@@ -106,6 +108,7 @@ public class Player {
       case "Game 3": return scoreGames[2];
       case "Game 4": return scoreGames[3];
       case "Game 5": return scoreGames[4];
+      case "Game 6": return scoreGames[5];
       default:       return 0; // no score
     }
   }

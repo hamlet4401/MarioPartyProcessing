@@ -20,6 +20,8 @@ int screenMiniGame1;
 int screenMiniGame2;
 int screenMiniGame3;
 int screenMiniGame4;
+int screenMiniGame5;
+int screenMiniGame6;
 int screenPlayerWin;
 int screenGuide;
 int onlyOnce;
@@ -37,7 +39,9 @@ boolean mainGame, stepGame, endStepGame, isSettingStepsTo38, onceFor38;
 /*
   game Flappy Mario
 */
-boolean flappyMarioStay5Seconds, marioFirevisionStay5Seconds, onlyOnceAfterMarioFirevision, makeGameOverScreenMarioFirevision, makeGameOverScreenFlappyMario, removeGameboardInterface, onlyOnceAfterFlappyMario;
+boolean marioMolStay5Seconds, onlyOnceAfterMarioMol, makeGameOverScreenMarioMol;
+boolean marioApplesStay5Seconds, onlyOnceAfterMarioApples, makeGameOverScreenMarioApples;
+boolean flappyMarioStay5Seconds, MarioFirevasionStay5Seconds, onlyOnceAfterMarioFirevasion, makeGameOverScreenMarioFirevasion, makeGameOverScreenFlappyMario, removeGameboardInterface, onlyOnceAfterFlappyMario;
 boolean marioArrowStay5Seconds, onlyOnceAfterMarioArrow, makeGameOverScreenMarioArrow;
 int gameScreen = 0;
 import processing.sound.*;
@@ -80,7 +84,7 @@ ArrayList<int[]> Tubes = new ArrayList<int[]>();
  PImage img6;
 float xMarioFirevasion = 760;    
 float yMarioFirevasion = 700;   
-float speed = 7;  //snelheid van beweging
+float speedMarioFirevasion = 12;  //snelheid van beweging
 float leftPosition = 410;   
 float ylaser1 = (111.111)+5;
 float ylaser2 = (222.222)+5;
@@ -138,8 +142,40 @@ color colloooor;
 color fill;
 color fill2;
 
+/*
+  Variables Mario Apples
+*/
+int [] xMarioApples;                                      
+float [] yMarioApples;
+float [] bx;                                      
+float [] by;
+int scoreMarioApples=0;
+int blokjes=20, bommen=5;
+PImage appel,bom;
+PImage mand;
+PImage bg;
+PImage marioMarioApples;
+
+/*
+  Variables Mario Mol
+*/
+boolean marioMolIsRunning;
+PImage mol;
+PImage molsgat;
+PImage hamer;
+PImage uitroep;
+PImage gras;
+float [] xMarioMol= {400, 400, 800, 800, 1200, 1200};
+float [] yMarioMol= {250, 500, 250, 500, 250, 500};
+int scoreMarioMol=0;
+int mollen=5;
+int prog=0;
+boolean [] aan;
+int [] tijdMarioMol;
+float [] randomMarioMol;
   
 void setup() { 
+  frameRate(1000);
   size(1600, 800, JAVA2D);
   // create custom GUI without other windows
   customStartGUI();
@@ -152,8 +188,10 @@ void setup() {
   screenMiniGame2 = 3;
   screenMiniGame3 = 4;
   screenMiniGame4 = 5;
-  screenPlayerWin = 6;
-  screenGuide = 6;
+  screenMiniGame5 = 6;
+  screenMiniGame6 = 7;
+  screenPlayerWin = 8;
+  screenGuide = 9;
   onlyOnce = 1;
   teller = 0;
   tellerPlaces = 0;
@@ -208,9 +246,9 @@ void setup() {
   img3 = loadImage("background.jpg");
   img5 = loadImage("hero.jpg");
   img6 = loadImage("pause.jpg");
-  marioFirevisionStay5Seconds = false;
-  onlyOnceAfterMarioFirevision = false;
-  makeGameOverScreenMarioFirevision = true;
+  MarioFirevasionStay5Seconds = false;
+  onlyOnceAfterMarioFirevasion = false;
+  makeGameOverScreenMarioFirevasion = true;
   
   /*
     Setup mario arrow
@@ -232,6 +270,49 @@ void setup() {
   onlyOnceAfterMarioArrow = false;
   makeGameOverScreenMarioArrow = true;
   runMarioArrow = true;
+  
+  /*
+    Setup Mario apples
+  */
+  xMarioApples = new int [blokjes];
+  yMarioApples = new float [blokjes];
+  bx = new float [bommen];
+  by = new float [bommen];
+  appel=loadImage("appel.png");                  //afbeeldingen laden
+  mand=loadImage("mand.png");
+  bg=loadImage("bg.jpg");
+  marioMarioApples=loadImage("marioStanding.png");
+  bom=loadImage("bom.png");
+  for (int i=0; i<blokjes; i++) {               //beginposities van appels declareren
+    yMarioApples[i] = random(50, 1750);
+    xMarioApples[i] = int(-100*random(1, 10));
+  }
+  for (int i=0; i<bommen; i++) {               //beginposities van bommen declareren
+    by[i] = random(50, 1750);
+    bx[i] = -100*random(1, 10);
+  }
+  marioApplesStay5Seconds = false;
+  onlyOnceAfterMarioApples = false;
+  makeGameOverScreenMarioApples = true;
+  
+  /*
+    Mario Mol setup
+  */
+  marioMolIsRunning = false;
+  hamer=loadImage("hamer.png");
+  mol=loadImage("mol.png");
+  molsgat=loadImage("molsgat.png");
+  uitroep=loadImage("uitroepteken.png");
+  gras=loadImage("gras.png");
+  tijdMarioMol = new int [6];
+  aan = new boolean [6];
+  randomMarioMol = new float [6];
+  for (int i=0; i<6; i++) {
+    randomMarioMol[i] = random(0, 400);
+  }
+  marioMolStay5Seconds = false;
+  onlyOnceAfterMarioMol = false;
+  makeGameOverScreenMarioMol = true;
 }
 
 /*
@@ -270,10 +351,22 @@ public void draw() {
       image(gameboardBackground, 0, 0);
     }
     // generate a new UI after Mario Firevision
-    while(onlyOnceAfterMarioFirevision) {
+    while(onlyOnceAfterMarioFirevasion) {
       showGameboardUI();
       myGame.projectPlayerBoard();
-      onlyOnceAfterMarioFirevision = false;
+      onlyOnceAfterMarioFirevasion = false;
+      image(gameboardBackground, 0, 0);
+    }
+    while(onlyOnceAfterMarioApples) {
+      showGameboardUI();
+      myGame.projectPlayerBoard();
+      onlyOnceAfterMarioApples = false;
+      image(gameboardBackground, 0, 0);
+    }
+    while(onlyOnceAfterMarioMol) {
+      showGameboardUI();
+      myGame.projectPlayerBoard();
+      onlyOnceAfterMarioMol = false;
       image(gameboardBackground, 0, 0);
     }
     // when the dice is rolled
@@ -364,7 +457,7 @@ public void draw() {
     if(removeGameboardInterface) {
         removeGameboardUIEndOfGame();
         removeGameboardInterface = false;
-      }
+    }
     background(44, 62, 80);
     textAlign(CENTER);    // after this, set it back to left!!!
     fill(255, 255, 255);
@@ -459,7 +552,7 @@ public void draw() {
           drawHero();
         }
         // move the hero
-        keyPressed();
+        keyPressedMarioFirevasion();
         drawEnemy();
         drawProjectile1();
         finish();
@@ -484,7 +577,7 @@ public void draw() {
         if (life == true){
           drawHero();
         }
-        keyPressed();                                                                                       
+        keyPressedMarioFirevasion();                                                                                       
         drawEnemy();
         drawProjectile2();
         finish();
@@ -509,7 +602,7 @@ public void draw() {
         if (life == true){
           drawHero();
         }
-        keyPressed();
+        keyPressedMarioFirevasion();
         drawEnemy();
         drawProjectile3();
         finish();
@@ -530,7 +623,7 @@ public void draw() {
       }
        // end of the game
       if (stage == 11) {
-        if(marioFirevisionStay5Seconds) {
+        if(MarioFirevasionStay5Seconds) {
           // stay 5 seconds
           delay(5000);
           // change background
@@ -538,28 +631,29 @@ public void draw() {
           // change state
           screenBackground = screenGameboard;
           // variables to the value when the game is stopped
-          marioFirevisionStay5Seconds = false;
+          MarioFirevasionStay5Seconds = false;
           removeGameboardInterface = true;
-          onlyOnceAfterMarioFirevision = true;
-          makeGameOverScreenMarioFirevision = false;
+          onlyOnceAfterMarioFirevasion = true;
+          makeGameOverScreenMarioFirevasion = false;
           stage = 1;
           // add score to player
           myGame.addScore(playerNumber, 25);
           // reset values for the next time
-          resetMarioFirevision();
+          resetMarioFirevasion();
         }
-        if(makeGameOverScreenMarioFirevision) {
+        if(makeGameOverScreenMarioFirevasion) {
           background(0);
           fill(25,200,200);
+          textAlign(CENTER);
           textSize(80);
           text("You win!", 1600/2,800/2);
-          marioFirevisionStay5Seconds = true;
+          MarioFirevasionStay5Seconds = true;
         }
-        makeGameOverScreenMarioFirevision = true;
+        makeGameOverScreenMarioFirevasion = true;
       }
       // end of the game
       if (stage == 12) {
-          if(marioFirevisionStay5Seconds) {
+          if(MarioFirevasionStay5Seconds) {
           // stay for 5 seconds
           delay(5000);
           // change background
@@ -567,24 +661,25 @@ public void draw() {
           // change state
           screenBackground = screenGameboard;
           // variables to the value when the game is stopped
-          marioFirevisionStay5Seconds = false;
+          MarioFirevasionStay5Seconds = false;
           removeGameboardInterface = true;
-          onlyOnceAfterMarioFirevision = true;
-          makeGameOverScreenMarioFirevision = false;
+          onlyOnceAfterMarioFirevasion = true;
+          makeGameOverScreenMarioFirevasion = false;
           stage = 1;
           // add score to player
           myGame.addScore(playerNumber, 0);
           // reset values for the next time
-          resetMarioFirevision();
+          resetMarioFirevasion();
         }
-        if(makeGameOverScreenMarioFirevision) {
+        if(makeGameOverScreenMarioFirevasion) {
           background(0);
           fill(25,200,200);
+          textAlign(CENTER);
           textSize(80);
           text("You lose!", 1600/2, 800/2); //scherm als je dood bent
-          marioFirevisionStay5Seconds = true;
+          MarioFirevasionStay5Seconds = true;
         }
-        makeGameOverScreenMarioFirevision = true;
+        makeGameOverScreenMarioFirevasion = true;
       }
     }
     // screen when hero is dead
@@ -737,7 +832,165 @@ public void draw() {
       }
       makeGameOverScreenMarioArrow = true;
     }
-  } else if(screenBackground == screenMiniGame4) {
+  } 
+  /*
+    mario apples
+  */
+  else if(screenBackground == screenMiniGame4) {
+    // remove GUI
+    if(removeGameboardInterface) {
+        removeGameboardUI();
+        removeGameboardInterface = false;
+    }
+    background(bg);
+    image(marioMarioApples, mouseX-25, 660, 50, 100);
+    image(mand, mouseX-40, 650, 80, 80);    //mand op muis tekenen
+    textAlign(LEFT);
+    textSize(30);                                  //score op scherm zetten
+    fill(255, 0, 0);
+    text("Score:"+scoreMarioApples, 30, 30);
+    for (int i=0; i<blokjes; i++) {                    //appels laten vallen
+      xMarioApples[i]=xMarioApples[i]+3;
+      fill(0);
+      image(appel, yMarioApples[i], xMarioApples[i], 40, 40);                  //appels plaatsen
+      if (xMarioApples[i] > height-120 && xMarioApples[i]<height-100) {    //vangen in mandje
+        if ( abs(yMarioApples[i]-mouseX) <= 50) {
+          scoreMarioApples++;
+          xMarioApples[i]=1000;
+        }
+      }
+    }
+      for (int i=0; i<bommen; i++) {                    //bommen laten vallen
+      bx[i]=bx[i]+3;
+      fill(0);
+      image(bom, by[i], bx[i], 40, 40);                  //bommen plaatsen
+      if (bx[i] > height-100 && bx[i]<height-60) {    //vangen in mandje
+        if ( abs(by[i]-mouseX) <= 50) {
+          if(scoreMarioApples>=1)
+          scoreMarioApples--;
+          
+          bx[i]=1000;
+        }
+      }
+    }
+    if(min(xMarioApples)>=800){                              //spel resetten na einde
+      /* for (int i=0; i<blokjes; i++) {               //gewonnen als score0>6
+        yMarioApples[i] = random(50, 1750);
+        xMarioApples[i] = int(-100*random(1, 10));
+      }
+      for (int i=0; i<bommen; i++) {              
+        by[i] = random(50, 1750);
+        bx[i] = -100*random(1, 10);
+      } */      
+      if(marioApplesStay5Seconds) {
+        // stay for 5 seconds
+        delay(5000);
+        // change background 
+        image(gameboardBackground, 0, 0);
+        // change state
+        screenBackground = screenGameboard;
+        // variables to the value when the game is stopped
+        marioApplesStay5Seconds = false;
+        removeGameboardInterface = true;
+        onlyOnceAfterMarioApples = true;
+        makeGameOverScreenMarioApples = false;
+        scoreMarioApples = 0;
+        for (int i=0; i<blokjes; i++) {               //beginposities van appels declareren
+          yMarioApples[i] = random(50, 1750);
+          xMarioApples[i] = int(-100*random(1, 10));
+        }
+        for (int i=0; i<bommen; i++) {               //beginposities van bommen declareren
+          by[i] = random(50, 1750);
+          bx[i] = -100*random(1, 10);
+        }
+      }
+      if(makeGameOverScreenMarioApples) {
+        // screen if the minigame ends
+        gameOverScreenMarioApples();
+        marioApplesStay5Seconds = true;
+        // add score to player
+        myGame.addScore(playerNumber, scoreMarioApples*2); // maybe add more points
+      }
+      makeGameOverScreenMarioApples = true;
+    }
+    // TODO: ADD CODE FOR MINI GAME. IF THE GAME ENDS, SET THE VAR screenBackground BACK TO THE GAMEBOARD VALUE!!!
+  } 
+  /*
+    Mario Mol Game
+  */  
+  else if(screenBackground == screenMiniGame5) {
+    //background(gras); 
+    if(removeGameboardInterface) {
+        removeGameboardUI();
+        removeGameboardInterface = false;
+        marioMolIsRunning = true;
+    }
+    image(gras, 0, 0, 1600, 1600);
+    for (int i=0; i<6; i++) {
+      image(molsgat, xMarioMol[i]-40, yMarioMol[i], 80, 50);
+  
+      if (aan[i]==true) {
+        image(mol, xMarioMol[i]-40, yMarioMol[i]-60, 80, 120);
+      }
+  
+      if (aan[i]==true)
+        tijdMarioMol[i]++;
+  
+      if ( tijdMarioMol[i]==100) {                          //weggaaan mol na tijdMarioMol
+        aan[i]=false;
+        randomMarioMol[i]=random(0, 400);
+        tijdMarioMol[i]=0;
+        prog++;
+      }
+  
+      if (tijdMarioMol[i]<=70 && tijdMarioMol[i]>=50)            //uitroepteken als mol bijna weg
+        image(uitroep, xMarioMol[i]+20, yMarioMol[i]-80, 20, 60);
+    }
+    textAlign(LEFT);
+    textSize(30);                             //score op scherm zetten
+    fill(255, 0, 0);
+    text("score:"+scoreMarioMol, 10, 30);
+  
+    image(hamer, mouseX-25, mouseY-25, 50, 80);   //hammer tekenen
+  
+    for (int i=0; i<6; i++) {                      //mol verschijnt op random moment
+      if ( randomMarioMol[i]>=500) {
+        aan[i]=true;
+      } else randomMarioMol[i]++;
+    }
+    if (prog>=10) {
+      if(marioMolStay5Seconds) {
+        // stay for 5 seconds
+        delay(5000);
+        // change background 
+        image(gameboardBackground, 0, 0);
+        // change state
+        screenBackground = screenGameboard;
+        // variables to the value when the game is stopped
+        marioMolIsRunning = false;
+        marioMolStay5Seconds = false;
+        removeGameboardInterface = true;
+        onlyOnceAfterMarioMol = true;
+        makeGameOverScreenMarioMol = false;
+        println("einde spel");           //gewonnen als score>7
+        scoreMarioMol=0;
+        mollen=5;
+        prog=0;
+        for (int i=0; i<6; i++) {
+          randomMarioMol[i] = random(0, 400);
+        }
+      }
+      if(makeGameOverScreenMarioMol) {
+        // screen if the minigame ends
+        gameOverScreenMarioMol();
+        marioMolStay5Seconds = true;
+        // add score to player
+        myGame.addScore(playerNumber, scoreMarioMol*2); // maybe add more points
+      }
+      makeGameOverScreenMarioMol = true;
+    }
+    // TODO: ADD CODE FOR MINI GAME. IF THE GAME ENDS, SET THE VAR screenBackground BACK TO THE GAMEBOARD VALUE!!!
+  } else if(screenBackground == screenMiniGame6) {
     // TODO: ADD CODE FOR MINI GAME. IF THE GAME ENDS, SET THE VAR screenBackground BACK TO THE GAMEBOARD VALUE!!!
   } else if(screenBackground == screenGuide) {
     // TODO: ADD CODE FOR MINI GAME. IF THE GAME ENDS, SET THE VAR screenBackground BACK TO THE GAMEBOARD VALUE!!!
@@ -1184,7 +1437,20 @@ public void mousePressed() {
   {       
     gameScreen=0;
   }
-  
+  if(marioMolIsRunning) {
+    for (int i=0; i<6; i++) {
+      if (aan[i] == true) {                             //is er een mol?
+        if (mouseX<xMarioMol[i]+20 && mouseX>xMarioMol[i]-20 &&        // muis op mol?   
+          mouseY<yMarioMol[i]+50 && mouseY>yMarioMol[i]-50) {
+          aan[i]=false;
+          tijdMarioMol[i]=0;
+          randomMarioMol[i]=random(0, 400);   
+          scoreMarioMol++;
+          prog++;
+        }
+      }
+    }
+  }
 }
 
 //wanneer je dood bent, gaat dit scherm open en speelt een geluid
@@ -1563,14 +1829,14 @@ void checkScore(){
 /* 
   Methods game mario firevision
 */
-void keyPressed() {                                                                                   // Verplaatsen met pijltjestoesten, alleen in y-richting
+void keyPressedMarioFirevasion() {                                                                                   // Verplaatsen met pijltjestoesten, alleen in y-richting
   if (keyPressed == true) {
     if (keyCode == UP) {
-      yMarioFirevasion = yMarioFirevasion - speed;
+      yMarioFirevasion = yMarioFirevasion - speedMarioFirevasion;
     }
     else {
       if (keyCode == DOWN) {
-        yMarioFirevasion = yMarioFirevasion + speed;
+        yMarioFirevasion = yMarioFirevasion + speedMarioFirevasion;
       }
     }
   } 
@@ -1728,11 +1994,11 @@ void finish() {
   }
 }
 
-void resetMarioFirevision() {
+void resetMarioFirevasion() {
   //Hero
   xMarioFirevasion = 760;    
   yMarioFirevasion = 700;   
-  speed = 7;  //snelheid van beweging
+  speedMarioFirevasion = 12;  //snelheid van beweging
   //Vijanden
   leftPosition = 410;   
   ylaser1 = (111.111)+5;
@@ -1771,7 +2037,7 @@ void scenery(){
 
 void pressedOk(){
   x = midX + width/4 - 2*dim;
-  speed= random(12, 30);
+  speedMarioArrow = random(12, 30);
   UDRL=int(random(0, 4));
 } 
 
@@ -1779,7 +2045,7 @@ void isAtEdge(){
   if(x > midX + width/4 -3*dim + width/2){
     geluid(3);
     x = midX + width/4 - dim;
-    speed= random(12, 30);
+    speedMarioArrow = random(12, 30);
     UDRL= int(random(0, 4));
     tellerMarioArrow--;
   }
@@ -1864,7 +2130,7 @@ void pressed(){
 }
 
 void movingRect(){
-  x = x + speed;
+  x = x + speedMarioArrow;
   translate(x, height/2);
   fill(colloooor);
   rect(-dim/2, -dim/2, dim, dim); 
@@ -1926,4 +2192,26 @@ public void resetMarioArrow() {
   LW = 40;
   UDRL = 0;
   tellerMarioArrow = 0;
+}
+
+void gameOverScreenMarioApples() {
+  background(44, 62, 80);
+  textAlign(CENTER);
+  fill(236, 240, 241);
+  textSize(12);
+  text("Your Score", width/2, height/2 - 120);
+  textSize(130);
+  text(scoreMarioApples, width/2, height/2);
+  textSize(15);
+}
+
+void gameOverScreenMarioMol() {
+  background(44, 62, 80);
+  textAlign(CENTER);
+  fill(236, 240, 241);
+  textSize(12);
+  text("Your Score", width/2, height/2 - 120);
+  textSize(130);
+  text(scoreMarioMol, width/2, height/2);
+  textSize(15);
 }
