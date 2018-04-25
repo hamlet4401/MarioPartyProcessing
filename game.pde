@@ -68,8 +68,8 @@ public class Game {
     myTiles[11].addGame("Game5", true, true);
     myTiles[12].addGame("Game3", true, true);
     myTiles[13].addGame("Game2", true, true);
-    myTiles[14].addGame("", true, true);
-    myTiles[15].addGame("Game1", true, true);
+    myTiles[14].addGame("Game1", true, true);
+    myTiles[15].addGame("", true, true);
     myTiles[16].addGame("", true, true);
     //myTiles[17].addGame("", true, true);
     myTiles[18].addGame("Game3", true, true);
@@ -207,6 +207,43 @@ public class Game {
     myBoard.movePlayerOnBoard(b, myPlayers[b].getPlaceOnBoard());  
     myBoard.playersProjectedOnBoard(numberOfPlayers, myPlayers);
   }
+  
+  // check actions after game is ended
+  public void checkActionsAfterGame(int b) {
+    // check the actions on a tile (game, snake, action or end game)
+    if(myTiles[myPlayers[b].getPlaceOnBoard()].hasAction()) {
+      if(myTiles[myPlayers[b].getPlaceOnBoard()].getAction() == "ladder") {
+        delay(1000);
+        if(myTiles[myPlayers[b].getPlaceOnBoard()].getPlaceOfTile() == 4) {
+          placeOnBoard = 9;
+        } else if(myTiles[myPlayers[b].getPlaceOnBoard()].getPlaceOfTile() == 19) {
+          placeOnBoard = 28;
+        } else if(myTiles[myPlayers[b].getPlaceOnBoard()].getPlaceOfTile() == 25) {
+          placeOnBoard = 37;
+        }
+        myTiles[myPlayers[b].getPlaceOnBoard()].removePlayerOnTile(myPlayers[b].getName());
+        myPlayers[b].playerActionOnSnakeLadder(placeOnBoard);
+        myTiles[myPlayers[b].getPlaceOnBoard()].addPlayerOnTile(myPlayers[b].getName());
+      } else if(myTiles[myPlayers[b].getPlaceOnBoard()].getAction() == "snake") {
+        delay(1000);
+        if(myTiles[myPlayers[b].getPlaceOnBoard()].getPlaceOfTile() == 17) {
+          placeOnBoard = 12;
+        } else if(myTiles[myPlayers[b].getPlaceOnBoard()].getPlaceOfTile() == 35) {
+          placeOnBoard = 27;
+        }
+        myTiles[myPlayers[b].getPlaceOnBoard()].removePlayerOnTile(myPlayers[b].getName());
+        myPlayers[b].playerActionOnSnakeLadder(placeOnBoard);
+        myTiles[myPlayers[b].getPlaceOnBoard()].addPlayerOnTile(myPlayers[b].getName());
+      } else if(myTiles[myPlayers[b].getPlaceOnBoard()].getAction() == "end") {
+        delay(1000);
+        // TODO: make a method to end the game
+        // ... .endGame();
+      } else {
+        // do nothing
+      }   
+    }
+  }
+  
   
   // check if there is an action on a tile
   public void checkActions(int b) {

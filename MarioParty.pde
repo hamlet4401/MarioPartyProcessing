@@ -495,6 +495,9 @@ public void draw() {
         removeGameboardInterface = true;
         onlyOnceAfterFlappyMario = true;
         makeGameOverScreenFlappyMario = false;
+        checkScore();
+        myGame.checkActionsAfterGame(playerNumber);
+        restartFlappyMario();
       }
       if(makeGameOverScreenFlappyMario) {
         // screen if the minigame ends
@@ -638,7 +641,9 @@ public void draw() {
           stage = 1;
           // add score to player
           myGame.addScore(playerNumber, 25);
-          // reset values for the next time
+          // reset values for the next time         
+          myGame.changePlaceOnBoard(myGame.getPlaceOnBoard(playerNumber) + 1, playerNumber);
+          myGame.checkActionsAfterGame(playerNumber);
           resetMarioFirevasion();
         }
         if(makeGameOverScreenMarioFirevasion) {
@@ -777,6 +782,8 @@ public void draw() {
         onlyOnceAfterMarioArrow = true;
         makeGameOverScreenMarioArrow = false;
         runMarioArrow = true;
+        myGame.changePlaceOnBoard(myGame.getPlaceOnBoard(playerNumber) + 1, playerNumber);
+        myGame.checkActionsAfterGame(playerNumber);
         // reset the game for the next time
         resetMarioArrow();
       }
@@ -894,6 +901,12 @@ public void draw() {
         removeGameboardInterface = true;
         onlyOnceAfterMarioApples = true;
         makeGameOverScreenMarioApples = false;
+        if(scoreMarioApples>5) {
+          // do nothing
+        } else {
+          myGame.changePlaceOnBoard(myGame.getPlaceOnBoard(playerNumber) - 1, playerNumber);
+        }
+        myGame.checkActionsAfterGame(playerNumber);
         scoreMarioApples = 0;
         for (int i=0; i<blokjes; i++) {               //beginposities van appels declareren
           yMarioApples[i] = random(50, 1750);
@@ -973,6 +986,12 @@ public void draw() {
         onlyOnceAfterMarioMol = true;
         makeGameOverScreenMarioMol = false;
         println("einde spel");           //gewonnen als score>7
+        if(scoreMarioMol>7) {
+          myGame.changePlaceOnBoard(myGame.getPlaceOnBoard(playerNumber) + 1, playerNumber);
+        } else {
+          // do nothing
+        }
+        myGame.checkActionsAfterGame(playerNumber);
         scoreMarioMol=0;
         mollen=5;
         prog=0;
@@ -1430,7 +1449,7 @@ public void mousePressed() {
   //spel start opnieuw
   else if (gameScreen==2) 
   {
-    restart();
+    gameScreen = 1;
   }
   //als de regels open zijn, klik je ergens en gaat het beginscherm opnieuw open
   else if (gameScreen==3)
@@ -1463,7 +1482,7 @@ void gameOver() {
 
 
 //reset het spel en je kunt opnieuw beginnen
-void restart() {
+void restartFlappyMario() {
   scoreFlappyMario = 0;
   health = maxHealth;
   ballX=width/4;
@@ -1810,7 +1829,7 @@ void regels() {
 void checkScore(){
   if (0 <= scoreFlappyMario && scoreFlappyMario <= 5)
   {
-    //ga een vakje achteruit
+    myGame.changePlaceOnBoard(myGame.getPlaceOnBoard(playerNumber) - 1, playerNumber);
   }
   else if (6 <= scoreFlappyMario && scoreFlappyMario <= 10)
   {
@@ -1818,11 +1837,11 @@ void checkScore(){
   }
   else if (11 <= scoreFlappyMario && scoreFlappyMario <= 15)
   {
-    //ga een vakje vooruit
+    myGame.changePlaceOnBoard(myGame.getPlaceOnBoard(playerNumber) + 1, playerNumber);
   }
   else
   {
-    //ga twee vakken vooruit
+    myGame.changePlaceOnBoard(myGame.getPlaceOnBoard(playerNumber) + 2, playerNumber);
   }
 }
 
