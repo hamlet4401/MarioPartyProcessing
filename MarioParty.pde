@@ -101,6 +101,11 @@ int interval4 = 4;
 int interval5 = 5;
 int livesMarioFirevasion = 3;
 boolean life = true; 
+import processing.sound.*;
+SoundFile file; //game music
+SoundFile file2; //effects
+boolean soundMusic = false;
+boolean soundEffects = false;
   
 /*
   Variables mario arrow
@@ -524,6 +529,11 @@ public void draw() {
       }
       // ADD TO SET IT BACK TO THE RIGHT POSITION (CENTER)!!!
       textAlign(LEFT);
+      if(sound2 == false){
+        file2 = new SoundFile(this, "Sandstorm.mp3");
+        file2.loop();
+        soundEffects = true;
+      }
       image(img4,0,0,width,height);
       textSize(100);
       fill(150,0,0);
@@ -533,6 +543,8 @@ public void draw() {
       text("Press any key to continue", 1600/3.2, 800/1.074626865671642); 
       if (keyPressed) {
         stage = 2;
+        soundEffects = false;
+        file2.stop();
       }
     }
     else {
@@ -548,8 +560,14 @@ public void draw() {
       textSize(35);
       text("Press P to pause", 1600/1.3, 800/1.02);
       textSize(50);
+      if (sound == false){
+        file = new SoundFile(this, "soundtrack.mp3");
+        file.amp(0);
+        file.loop();
+        soundMusic = true;
       // level 1
       if(stage == 3) {
+        file.amp(1);
         text("LEVEL 1", 1600/30, 800/4);
         if (life == true){                             
           drawHero();
@@ -566,6 +584,7 @@ public void draw() {
       }
       // pause 1
       if(stage == 4) {
+        file.amp(0);
         image(img6,-50,0, width+50, height);
         textSize(50);
         fill(150,150,0);
@@ -576,6 +595,7 @@ public void draw() {
       }
       // level 2
       if (stage == 6) {
+        file.amp(1);
         text("LEVEL 2", 1600/30, 800/4);
         if (life == true){
           drawHero();
@@ -591,6 +611,7 @@ public void draw() {
       } 
       // pause 2
       if(stage == 7) {
+        file.amp(0);
         image(img6,-50,0, width+50, height);
         textSize(50);
         fill(150,150,0);
@@ -601,6 +622,7 @@ public void draw() {
       }
       // level 3
       if (stage == 9) {                  
+        file.amp(1);
         text("LEVEL 3", 1600/30, 800/4);
         if (life == true){
           drawHero();
@@ -616,6 +638,7 @@ public void draw() {
       }
       // pause 3
       if(stage == 10) { 
+        file.amp(0);
         image(img6,-50,0, width+50, height);
         textSize(50);
         fill(150,150,0);
@@ -647,11 +670,22 @@ public void draw() {
           resetMarioFirevasion();
         }
         if(makeGameOverScreenMarioFirevasion) {
-          background(0);
-          fill(25,200,200);
-          textAlign(CENTER);
-          textSize(80);
-          text("You win!", 1600/2,800/2);
+          
+          file.amp(0);
+          if(sound2 == false){
+            file2 = new SoundFile(this, "win.mp3");
+            file2.play();
+            soundEffects = true;
+          }
+          image(img4,0,0,width,height);
+          textSize(100);
+          fill(150,0,0);
+          text("Mario Firevasion", width/3.8, height/10);
+          textSize(120);
+          fill(150,150,0);
+          text("You win!", width/3,height/1.35);
+          fill(210,255,255);
+          text(livesMarioFirevasion +" steps forward", width/4.4,height/1.1);
           MarioFirevasionStay5Seconds = true;
         }
         makeGameOverScreenMarioFirevasion = true;
@@ -677,11 +711,21 @@ public void draw() {
           resetMarioFirevasion();
         }
         if(makeGameOverScreenMarioFirevasion) {
-          background(0);
-          fill(25,200,200);
-          textAlign(CENTER);
-          textSize(80);
-          text("You lose!", 1600/2, 800/2); //scherm als je dood bent
+          file.amp(0);
+          if(sound2 == false){
+            file2 = new SoundFile(this, "lost.mp3");
+            file2.play();
+            soundEffects = true;
+          }
+          image(img4,0,0,width,height);
+          textSize(100);
+          fill(150,0,0);
+          text("Mario Firevasion", width/3.8, height/10);
+          textSize(120);
+          fill(150,150,0);
+          text("You lose!", width/3,height/1.35);
+          fill(210,255,255);
+          text(livesMarioFirevasion +" steps forward", width/4.4,height/1.1);
           MarioFirevasionStay5Seconds = true;
         }
         makeGameOverScreenMarioFirevasion = true;
@@ -700,6 +744,11 @@ public void draw() {
     }
     // before level 1
     if (stage == 2) {
+      if(soundEffects == false){
+        file2 = new SoundFile(this, "prelevel.mp3");
+        file2.play();
+        soundEffects = true;
+      }
       background(0);
       textSize(100);
       fill(150,0,0);
@@ -710,11 +759,18 @@ public void draw() {
       textSize(150);
       text("Ready for level 1?", 1600/11, 800/2);
       if (keyCode == ENTER) {
+        soundEffects = false;
+        file2.stop();
         stage = 3;
       }
     }
     // before level 2
     if (stage == 5) {
+      if(soundEffects == false){
+        file2 = new SoundFile(this, "prelevel.mp3");
+        file2.play();
+        soundEffects = true;
+      }
       background(0);
       textSize(100);
       fill(150,0,0);
@@ -726,11 +782,18 @@ public void draw() {
       textSize(150);
       text("Ready for level 2?", width/11, height/2);
       if (keyCode == ENTER) {
+        soundEffects = false;
+        file2.stop();
         stage = 6;
       }
     }
     // before level 3
     if (stage == 8) {
+      if(soundEffects == false){
+        file2 = new SoundFile(this, "prelevel.mp3");
+        file2.play();
+        soundEffects = true;
+      }
       background(0);
       textSize(100);
       fill(150,0,0);
@@ -742,6 +805,8 @@ public void draw() {
       textSize(150);
       text("Ready for level 3?", width/11, height/2);
       if (keyCode == ENTER) {
+        soundEffects = false;
+       file2.stop();
         stage = 9;
       }
     }
@@ -1999,16 +2064,27 @@ void drawHero() {
  
 void finish() {                                                                              
   if (yMarioFirevasion < (height/11)) {                                                                                         //Finishline!
-    if (stage == 3) {                                                                                    //Overgaan van LEVEL1 naar LEVEL2
-      yMarioFirevasion = height/1.08;                                                                                          //Terug naar beginpositie gaan en dan pas stage veranderen
-      stage = 5;
-    }
-    else if (stage == 6) {                                                                               //Overgaan van LEVEL2 naar LEVEL3
-      yMarioFirevasion = height/1.08;                                                                                          //Terug naar beginpositie gaan en dan pas stage veranderen
-      stage = 8; 
-    }
-    else if (stage == 9) {                                                                               //Overgaan van LEVEL3 naar eindscherm
-      stage = 11;
+    if(soundEffects == false){
+         file2 = new SoundFile(this, "coin.mp3");
+         file2.play();
+       }
+      if (stage == 3) {                                                                                    //Overgaan van LEVEL1 naar LEVEL2
+        y = height/1.08;                                                                                          //Terug naar beginpositie gaan en dan pas stage veranderen
+        file.stop();
+        soundMusic = false;
+        stage = 5;
+      }
+      else if (stage == 6) {                                                                               //Overgaan van LEVEL2 naar LEVEL3
+        y = height/1.08;                                                                                          //Terug naar beginpositie gaan en dan pas stage veranderen
+        file.stop();
+        soundMusic = false;
+
+        stage = 8; 
+      }
+      else if (stage == 9) {                                                                               //Overgaan van LEVEL3 naar eindscherm
+        file.stop();
+        soundMusic = false;
+        stage = 11;
     }
   }
 }
